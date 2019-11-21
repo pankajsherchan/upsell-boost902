@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Layout from './components/layouts/Layout';
+import Dashboard from './features/dashboard/Dashboard';
+import Home from './features/home/Home';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const authenticateUser = () => {
+    setIsAuthenticated(true);
+  };
+
+  const signOut = () => {
+    setIsAuthenticated(false);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isAuthenticated ? (
+        <Layout signOut={signOut}>
+          <Dashboard />
+        </Layout>
+      ) : (
+        <Home authenticateUser={authenticateUser} />
+      )}
     </div>
   );
 }
