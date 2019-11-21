@@ -1,0 +1,33 @@
+.nav-links a {
+  margin: 1rem;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links a:hover,
+.nav-links a:active,
+.nav-links a.active {
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    flex-direction: row;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+  }
+}

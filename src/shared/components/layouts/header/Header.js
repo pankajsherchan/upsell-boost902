@@ -15,8 +15,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { default as React } from 'react';
 
-//TODO: look at the youtube for inspiration
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1

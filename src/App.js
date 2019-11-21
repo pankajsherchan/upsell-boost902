@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from 'react-router-dom';
 import './App.css';
-import Layout from './components/layouts/Layout';
-import Dashboard from './features/dashboard/Dashboard';
-import Home from './features/home/Home';
+import Dashboard from './dashboard/Dashboard';
+import Performance from './performance/Performance';
+import Posts from './post/pages/Posts';
+import Revenue from './revenue/Revenue';
+import MainNavigation from './shared/components/navigation/MainNavigation';
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const authenticateUser = () => {
-    setIsAuthenticated(true);
-  };
-
-  const signOut = () => {
-    setIsAuthenticated(false);
-  };
-
+const App = () => {
   return (
-    <div className="App">
-      {isAuthenticated ? (
-        <Layout signOut={signOut}>
+    <Router>
+      <MainNavigation />
+      <Switch>
+        <Route path="/" exact>
           <Dashboard />
-        </Layout>
-      ) : (
-        <Home authenticateUser={authenticateUser} />
-      )}
-    </div>
+        </Route>
+
+        <Route path="/revenue" exact>
+          <Revenue />
+        </Route>
+
+        <Route path="/performance" exact>
+          <Performance />
+        </Route>
+
+        <Route path="/posts" exact>
+          <Posts />
+        </Route>
+
+        <Redirect to="/" />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
