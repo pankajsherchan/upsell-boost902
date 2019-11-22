@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Dashboard from './dashboard/Dashboard';
+import SignUp from './features/authentication/signup/SignUp';
 import Performance from './performance/Performance';
 import Posts from './post/pages/Posts';
 import Revenue from './revenue/Revenue';
@@ -31,6 +32,10 @@ const App = () => {
 
         <Route path="/posts" exact>
           <Posts />
+        </Route>
+
+        <Route path="/signup" exact>
+          <SignUp />
         </Route>
 
         <Redirect to="/" />

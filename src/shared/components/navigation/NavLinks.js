@@ -7,12 +7,10 @@ const NavLinks = props => {
       <NavLink to="/" exact>
         Dashboard
       </NavLink>
-
-      <NavLink to="/revenue">Revenue</NavLink>
-
+      <NavLink to="revenue">Revenue</NavLink>
       <NavLink to="performance">Performance</NavLink>
-
       <NavLink to="posts">Posts</NavLink>
+      <NavLink to="signup">Signup</NavLink>
     </div>
   );
 };

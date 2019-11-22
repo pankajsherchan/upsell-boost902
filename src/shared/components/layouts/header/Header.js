@@ -36,14 +36,9 @@ const useStyles = makeStyles(theme => ({
 const Header = props => {
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false
-  });
+  const [sideBar, setSideBar] = React.useState(false);
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = () => event => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -51,19 +46,19 @@ const Header = props => {
       return;
     }
 
-    setState({ ...state, [side]: open });
+    setSideBar({ sideBar: !sideBar });
   };
 
   const signOut = () => {
     props.signOut();
   };
 
-  const sideList = side => (
+  const sideList = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
+      onClick={toggleDrawer}
+      onKeyDown={toggleDrawer}
     >
       <List>
         {[
@@ -93,7 +88,7 @@ const Header = props => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={toggleDrawer('left', true)}
+            onClick={toggleDrawer}
           >
             <MenuIcon />
           </IconButton>
@@ -105,9 +100,8 @@ const Header = props => {
           </Button>
         </Toolbar>
       </AppBar>
-      {/* <Button onClick={toggleDrawer('left', true)}>Open Left</Button> */}
-      <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
-        {sideList('left')}
+      <Drawer open={sideBar} onClose={toggleDrawer}>
+        {sideList}
       </Drawer>
     </div>
   );
