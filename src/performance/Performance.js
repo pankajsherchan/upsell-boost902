@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const Performance = () => {
   return (
     <Fragment>
-      <p> Performance Page</p>
+      <p> This page will have Bar Graph that measures individual performance</p>
     </Fragment>
   );
 };

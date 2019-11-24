@@ -6,11 +6,12 @@ import {
   Switch
 } from 'react-router-dom';
 import './App.css';
+import Comparison from './comparison/Comparison';
 import Dashboard from './dashboard/Dashboard';
 import SignUp from './features/authentication/signup/SignUp';
 import Performance from './performance/Performance';
 import Posts from './post/pages/Posts';
-import Revenue from './revenue/Revenue';
+import RevenueSummary from './revenue-summary/RevenueSummary';
 import MainNavigation from './shared/components/navigation/MainNavigation';
 
 const App = () => {
@@ -22,8 +23,12 @@ const App = () => {
           <Dashboard />
         </Route>
 
-        <Route path="/revenue" exact>
-          <Revenue />
+        <Route path="/revenue-summary" exact>
+          <RevenueSummary />
+        </Route>
+
+        <Route path="/comparison" exact>
+          <Comparison />
         </Route>
 
         <Route path="/performance" exact>

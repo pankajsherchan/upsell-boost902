@@ -15,7 +15,7 @@ const PostList = props => {
 
   return (
     <MaterialTable
-      title="Editable Example"
+      title="Daily Posting"
       columns={columns}
       data={data}
       editable={{
@@ -57,14 +57,6 @@ const PostList = props => {
       }}
     />
   );
-
-  // return (
-  //   <ul>
-  //     {props.items.map(post => (
-  //       <PostItem key={post.id} id={post.id} name={post.name} />
-  //     ))}
-  //   </ul>
-  // );
 };
 
 export default PostList;

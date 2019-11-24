@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import VerticalTab from '../../shared/components/tab/VerticalTab';
+import PostInfo from '../components/PostInfo';
 import PostList from '../components/PostList';
 
 const Posts = () => {
@@ -55,7 +57,10 @@ const Posts = () => {
 
   return (
     <Fragment>
-      <PostList items={POSTS} columns={columns} data={data} />
+      <VerticalTab
+        list={<PostList items={POSTS} columns={columns} data={data} />}
+        info={<PostInfo />}
+      ></VerticalTab>
     </Fragment>
   );
 };
