@@ -1,11 +1,4 @@
 .dashboard {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 15px;
 }
-
-/* .dashboard-additionalInfo {
-  display: flex;
-  flex-direction: column;
-} */

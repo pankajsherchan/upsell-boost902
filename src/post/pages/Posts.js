@@ -1,3 +1,4 @@
+import { CssBaseline } from '@material-ui/core';
 import React, { Fragment } from 'react';
 import VerticalTab from '../../shared/components/tab/VerticalTab';
 import PostInfo from '../components/PostInfo';
@@ -57,6 +58,7 @@ const Posts = () => {
 
   return (
     <Fragment>
+      <CssBaseline />
       <VerticalTab
         list={<PostList items={POSTS} columns={columns} data={data} />}
         info={<PostInfo />}

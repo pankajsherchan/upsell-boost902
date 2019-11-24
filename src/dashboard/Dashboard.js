@@ -1,11 +1,21 @@
+import { CssBaseline } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { Fragment, useState } from 'react';
 import Forecast from './components/forecast/Forecast';
 import PredictionInfo from './components/prediction-info/PredictionInfo';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.grey['100']
+  }
+}));
+
 const Dashboard = () => {
+  const classes = useStyles();
+
   const columnsValue = [
     { title: 'Name', field: 'name' },
     { title: 'Total Revenue', field: 'totalRevenue' },
@@ -50,20 +60,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard">
-      <UpsellSummary
-        columns={columns}
-        data={data}
-        addUpsellSummary={onAddUpsellSummary}
-        updateUpsellSummary={onUpdateUpsellSummary}
-        deleteUpsellSummary={onDeleteUpsellSummary}
-      ></UpsellSummary>
-      <div className="dashboard-additionalInfo">
-        <PredictionInfo> </PredictionInfo>
-        <Divider />
-        <Forecast> </Forecast>
+    <Fragment>
+      <div className={classes.root}>
+        <CssBaseline />
+
+        <div className="dashboard">
+          <UpsellSummary
+            columns={columns}
+            data={data}
+            addUpsellSummary={onAddUpsellSummary}
+            updateUpsellSummary={onUpdateUpsellSummary}
+            deleteUpsellSummary={onDeleteUpsellSummary}
+          ></UpsellSummary>
+          <div className="dashboard-additionalInfo">
+            <PredictionInfo> </PredictionInfo>
+            <Divider />
+            <Forecast> </Forecast>
+          </div>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
