@@ -1,21 +1,18 @@
 import {
-  Button,
-  Checkbox,
   CssBaseline,
   Divider,
   Grid,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Paper,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { Fragment, useState } from 'react';
 import ResponsiveBarChart from '../shared/components/charts/ResponsiveBarChart';
+import ContentLayout from '../shared/components/layouts/content/ContentLayout';
+import CustomPaper from '../shared/components/layouts/content/CustomPaper';
 import Loading from '../shared/components/loading/Loading';
+import PageTitle from '../shared/components/page-title/PageTitle';
 import CheckboxList from './components/CheckboxList';
-
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
 
@@ -38,24 +35,15 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.grey['100']
   },
-  block: {
-    padding: theme.spacing(2)
-  },
-  top: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
   grid: {
-    width: 1200,
-    margin: `0 ${theme.spacing(2)}px`,
+    margin: `0 ${theme.spacing(1)}px`,
     [theme.breakpoints.down('sm')]: {
       width: 'calc(100% - 20px)'
     }
   },
   paper: {
-    padding: theme.spacing(3),
-    margin: theme.spacing(2),
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
@@ -69,7 +57,6 @@ const useStyles = makeStyles(theme => ({
 
 const Comparison = () => {
   const classes = useStyles();
-  const listVal = '<div> Panka </div>';
   const DATA = [
     {
       month: 'January',
@@ -104,7 +91,7 @@ const Comparison = () => {
     'December'
   ];
 
-  const comparisonValues = ['expected', 'scored'];
+  const comparisonValues = ['Expected', 'Scored'];
 
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);
@@ -141,104 +128,40 @@ const Comparison = () => {
     setData(data);
   };
 
-  const renderRow = props => {
-    return months.map((month, index) => {
-      return (
-        <ListItem
-          button
-          key={month}
-          role={undefined}
-          dense
-          onClick={handleToggle(month)}
-        >
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={checked.indexOf(month) !== -1}
-              tabIndex={-1}
-              disableRipple
-              inputProps={{ 'aria-labelledby': index }}
-            />
-          </ListItemIcon>
-          <ListItemText primary={month} id={index} />
-        </ListItem>
-      );
-    });
-  };
-
   return (
     <Fragment>
       <CssBaseline />
-      <Grid container justify="center">
-        <Grid
-          spacing={4}
-          alignItems="center"
-          justify="center"
-          container
-          className={classes.grid}
-        >
-          {/* FIRST ROW  */}
-          <Grid item xs={12}>
-            <div className={classes.top}>
-              <div className={classes.block}>
+
+      <ContentLayout>
+        <PageTitle> </PageTitle>
+        <CustomPaper title="SelectValue">
+          <CheckboxList data={comparisonValues} />
+        </CustomPaper>
+
+        <CustomPaper title="SelectMonths">
+          <CheckboxList data={months} />
+        </CustomPaper>
+      </ContentLayout>
+
+      <Grid container spacing={4} justify="center">
+        <Grid item xs={12} md={12}>
+          <Paper className={classes.paper} style={{ position: 'relative' }}>
+            <Loading loading={loading} />
+            <div className={loading ? classes.loadingState : ''}>
+              <Typography variant="subtitle1" gutterBottom>
+                Some details
+              </Typography>
+              <Typography variant="body1">Details about the graph</Typography>
+
+              <div className={classes.chartWrapper}>
                 <Typography variant="h6" gutterBottom>
                   Comparison By Months
                 </Typography>
-                <Typography variant="body1">
-                  Adjust the months with the sliders.
-                </Typography>
+                <Divider />
+                <ResponsiveBarChart data={data} />
               </div>
-              <Button variant="outlined" className={classes.outlinedButtom}>
-                Get help
-              </Button>
             </div>
-          </Grid>
-
-          {/* SECOND ROW */}
-          <Grid item xs={12} md={4}>
-            <Paper className={classes.paper}>
-              <Typography variant="h6" gutterBottom>
-                Select Value
-              </Typography>
-              <Divider />
-              <CheckboxList data={comparisonValues} />
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Paper className={classes.paper}>
-              <Typography variant="h6" gutterBottom>
-                Select Months
-              </Typography>
-              <Divider />
-              <CheckboxList data={months} />
-            </Paper>
-          </Grid>
-
-          {/* THIRD ROW */}
-          <Grid container spacing={4} justify="center">
-            <Grid item xs={12} md={12}>
-              <Paper className={classes.paper} style={{ position: 'relative' }}>
-                <Loading loading={loading} />
-                <div className={loading ? classes.loadingState : ''}>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Some details
-                  </Typography>
-                  <Typography variant="body1">
-                    Details about the graph
-                  </Typography>
-
-                  <div className={classes.chartWrapper}>
-                    <Typography variant="h6" gutterBottom>
-                      Comparison By Months
-                    </Typography>
-                    <Divider />
-                    <ResponsiveBarChart data={data} />
-                  </div>
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </Fragment>
