@@ -1,10 +1,10 @@
 import { CssBaseline } from '@material-ui/core';
 import React, { Fragment } from 'react';
-import VerticalTab from '../../shared/components/tab/VerticalTab';
-import PostInfo from '../components/PostInfo';
-import PostList from '../components/PostList';
+import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
+import PageTitle from '../../shared/components/page-title/PageTitle';
 
 const Posts = () => {
+  const title = 'Daily Posting';
   const POSTS = [
     {
       id: 1,
@@ -59,10 +59,15 @@ const Posts = () => {
   return (
     <Fragment>
       <CssBaseline />
-      <VerticalTab
+
+      <ContentLayout>
+        <PageTitle title={title}></PageTitle>
+      </ContentLayout>
+
+      {/* <VerticalTab
         list={<PostList items={POSTS} columns={columns} data={data} />}
         info={<PostInfo />}
-      ></VerticalTab>
+      ></VerticalTab> */}
     </Fragment>
   );
 };

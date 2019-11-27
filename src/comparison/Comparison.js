@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 
 const Comparison = () => {
   const classes = useStyles();
+  const title = 'Comparison by Months';
   const DATA = [
     {
       month: 'January',
@@ -131,9 +132,8 @@ const Comparison = () => {
   return (
     <Fragment>
       <CssBaseline />
-
       <ContentLayout>
-        <PageTitle> </PageTitle>
+        <PageTitle title={title}> </PageTitle>
         <CustomPaper title="SelectValue">
           <CheckboxList data={comparisonValues} />
         </CustomPaper>
@@ -142,7 +142,6 @@ const Comparison = () => {
           <CheckboxList data={months} />
         </CustomPaper>
       </ContentLayout>
-
       <Grid container spacing={4} justify="center">
         <Grid item xs={12} md={12}>
           <Paper className={classes.paper} style={{ position: 'relative' }}>

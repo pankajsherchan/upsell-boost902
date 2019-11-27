@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   }
 }));
-const PageTitle = () => {
+const PageTitle = props => {
   const classes = useStyles();
   return (
     <Fragment>
@@ -20,7 +20,7 @@ const PageTitle = () => {
         <div className={classes.top}>
           <div className={classes.block}>
             <Typography variant="h6" gutterBottom>
-              Comparison By Months
+              {props.title}
             </Typography>
           </div>
         </div>
