@@ -2,10 +2,6 @@ import MaterialTable from 'material-table';
 import React, { useEffect } from 'react';
 const UpsellSummary = props => {
   useEffect(() => {
-    // const data = props.data;
-    // return () => {
-    //   data.unsubscribe();
-    // };
     console.log(props.data);
   }, [props.data]);
 

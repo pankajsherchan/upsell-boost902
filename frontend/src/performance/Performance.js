@@ -9,23 +9,19 @@ const Performance = () => {
   return (
     <Fragment>
       <CssBaseline />
-
       <ContentLayout>
         <PageTitle title={title}></PageTitle>
+        <Paper
+          style={{
+            marginLeft: 20,
+            marginRight: 20,
+            paddingTop: 30,
+            paddingBottom: 30
+          }}
+        >
+          <SimpleBarChart />
+        </Paper>
       </ContentLayout>
-
-      <p> This page will have Bar Graph that measures individual performance</p>
-
-      <Paper
-        style={{
-          marginLeft: 20,
-          marginRight: 20,
-          paddingTop: 30,
-          paddingBottom: 30
-        }}
-      >
-        <SimpleBarChart />
-      </Paper>
     </Fragment>
   );
 };

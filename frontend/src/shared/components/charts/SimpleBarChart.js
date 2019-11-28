@@ -46,12 +46,10 @@ const data = [
 ];
 
 export default class SimpleBarChart extends PureComponent {
-  static jsfiddleUrl = 'https://jsfiddle.net/alidingling/30763kr7/';
-
   render() {
     return (
       <BarChart
-        width={1000}
+        width={window.innerWidth - 160}
         height={500}
         data={data}
         margin={{
@@ -61,28 +59,12 @@ export default class SimpleBarChart extends PureComponent {
           bottom: 5
         }}
       >
-        {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="name" />
         <YAxis />
-        {/* <Tooltip /> */}
         <Legend />
         <Bar dataKey="score" fill="#413ea0" className="bar">
           <LabelList dataKey="score" position="top" />
         </Bar>
-        {/* <Bar dataKey="person2" fill="#82ca9d" className="bar" />
-        <Bar dataKey="person3" fill="#82ca9d" className="bar" />
-        <Bar dataKey="person4" fill="#82ca9d" />
-        <Bar dataKey="person5" fill="#82ca9d" />
-        <Bar dataKey="person6" fill="#82ca9d" />
-        <Bar dataKey="person7" fill="#82ca9d" />
-        <Bar dataKey="person8" fill="#82ca9d" />
-        <Bar dataKey="person9" fill="#8884d8" />
-        <Bar dataKey="person10" fill="#82ca9d" />
-        <Bar dataKey="person11" fill="#82ca9d" />
-        <Bar dataKey="person12" fill="#82ca9d" />
-        <Bar dataKey="person13" fill="#82ca9d" />
-        <Bar dataKey="person14" fill="#82ca9d" />
-        <Bar dataKey="person15" fill="#82ca9d" /> */}
       </BarChart>
     );
   }

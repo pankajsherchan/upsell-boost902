@@ -5,7 +5,7 @@ import {
   Paper,
   Typography
 } from '@material-ui/core';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,17 +19,15 @@ const useStyles = makeStyles(theme => ({
 const CustomPaper = props => {
   const classes = useStyles();
   return (
-    <Fragment>
-      <Grid item xs={12} md={4}>
-        <Paper className={classes.paper}>
-          <Typography variant="h6" gutterBottom>
-            {props.title}
-          </Typography>
-          <Divider />
-          {props.children}
-        </Paper>
-      </Grid>
-    </Fragment>
+    <Grid item xs={12} md={4}>
+      <Paper className={classes.paper}>
+        <Typography variant="h6" gutterBottom>
+          {props.title}
+        </Typography>
+        <Divider />
+        {props.children}
+      </Paper>
+    </Grid>
   );
 };
 

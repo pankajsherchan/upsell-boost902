@@ -12,14 +12,8 @@ const RevenueSummary = () => {
 
       <ContentLayout>
         <PageTitle title={title}></PageTitle>
+        <CustomLineChart />
       </ContentLayout>
-
-      <p>
-        This page will have <b> Line Chart</b> that shows each day revenue in a
-        line chart
-      </p>
-
-      <CustomLineChart />
     </Fragment>
   );
 };

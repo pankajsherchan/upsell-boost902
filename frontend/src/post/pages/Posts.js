@@ -1,9 +1,28 @@
 import { CssBaseline } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { Fragment } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
+import CustomPaper from '../../shared/components/layouts/content/CustomPaper';
 import PageTitle from '../../shared/components/page-title/PageTitle';
+import PostList from '../components/PostList';
+
+const useStyles = makeStyles(theme => ({
+  boldLabel: {
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: '16px'
+  },
+  postInfo: {
+    margin: theme.spacing(1),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+    fontSize: '16px'
+  }
+}));
 
 const Posts = () => {
+  const classes = useStyles();
+
   const title = 'Daily Posting';
   const POSTS = [
     {
@@ -59,15 +78,32 @@ const Posts = () => {
   return (
     <Fragment>
       <CssBaseline />
-
       <ContentLayout>
         <PageTitle title={title}></PageTitle>
-      </ContentLayout>
 
-      {/* <VerticalTab
-        list={<PostList items={POSTS} columns={columns} data={data} />}
-        info={<PostInfo />}
-      ></VerticalTab> */}
+        <CustomPaper title="Today's Arrival" xs={6}>
+          <div className={classes.postInfo}>
+            <b className={classes.boldLabel}> Arrivals : </b> 200
+          </div>
+        </CustomPaper>
+
+        <CustomPaper title="Target vs Achieved" xs={6}>
+          <div className={classes.postInfo}>
+            <b className={classes.boldLabel}> Target : </b> 100
+          </div>
+
+          <div className={classes.postInfo}>
+            <b className={classes.boldLabel}> Achieved : </b> 80
+          </div>
+
+          <div className={classes.postInfo}>
+            <b className={classes.boldLabel}> Achieved % : </b> 80%
+          </div>
+        </CustomPaper>
+        <div xs={12} md={12} style={{ width: '90%' }}>
+          <PostList items={POSTS} columns={columns} data={data}></PostList>
+        </div>
+      </ContentLayout>
     </Fragment>
   );
 };

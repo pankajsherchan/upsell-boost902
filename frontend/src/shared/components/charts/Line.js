@@ -134,7 +134,7 @@ let data = [
 
 const CustomLineChart = () => {
   return (
-    <LineChart width={1280} height={300} data={data}>
+    <LineChart width={window.innerWidth - 160} height={500} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="day" padding={{ left: 30, right: 30 }} />
       <YAxis type="number" domain={[0, 1]} />

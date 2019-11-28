@@ -35,12 +35,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.grey['100']
   },
-  grid: {
-    margin: `0 ${theme.spacing(1)}px`,
-    [theme.breakpoints.down('sm')]: {
-      width: 'calc(100% - 20px)'
-    }
-  },
   paper: {
     padding: theme.spacing(1),
     margin: theme.spacing(1),
@@ -133,36 +127,42 @@ const Comparison = () => {
     <Fragment>
       <CssBaseline />
       <ContentLayout>
-        <PageTitle title={title}> </PageTitle>
-        <CustomPaper title="SelectValue">
+        <PageTitle title={title} xs={12}></PageTitle>
+
+        <CustomPaper title="SelectValue" xs={6}>
           <CheckboxList data={comparisonValues} />
         </CustomPaper>
 
-        <CustomPaper title="SelectMonths">
+        <CustomPaper title="SelectMonths" xs={6}>
           <CheckboxList data={months} />
         </CustomPaper>
-      </ContentLayout>
-      <Grid container spacing={4} justify="center">
-        <Grid item xs={12} md={12}>
-          <Paper className={classes.paper} style={{ position: 'relative' }}>
-            <Loading loading={loading} />
-            <div className={loading ? classes.loadingState : ''}>
-              <Typography variant="subtitle1" gutterBottom>
-                Some details
-              </Typography>
-              <Typography variant="body1">Details about the graph</Typography>
 
-              <div className={classes.chartWrapper}>
-                <Typography variant="h6" gutterBottom>
-                  Comparison By Months
-                </Typography>
-                <Divider />
-                <ResponsiveBarChart data={data} />
-              </div>
-            </div>
-          </Paper>
-        </Grid>
-      </Grid>
+        <div xs={12} style={{ width: '90%' }}>
+          <Grid container xs={12} justify="center">
+            <Grid item xs={12} md={12}>
+              <Paper className={classes.paper} style={{ position: 'relative' }}>
+                <Loading loading={loading} />
+                <div className={loading ? classes.loadingState : ''}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Some details
+                  </Typography>
+                  <Typography variant="body1">
+                    Details about the graph
+                  </Typography>
+
+                  <div className={classes.chartWrapper}>
+                    <Typography variant="h6" gutterBottom>
+                      Comparison By Months
+                    </Typography>
+                    <Divider />
+                    <ResponsiveBarChart data={data} />
+                  </div>
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>
+        </div>
+      </ContentLayout>
     </Fragment>
   );
 };

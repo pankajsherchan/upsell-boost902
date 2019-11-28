@@ -1,8 +1,8 @@
 import { CssBaseline } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/styles';
 import React, { Fragment, useState } from 'react';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
+import CustomPaper from '../shared/components/layouts/content/CustomPaper';
 import PageTitle from '../shared/components/page-title/PageTitle';
 import Forecast from './components/forecast/Forecast';
 import PredictionInfo from './components/prediction-info/PredictionInfo';
@@ -65,25 +65,24 @@ const Dashboard = () => {
   return (
     <Fragment>
       <CssBaseline />
-
       <ContentLayout>
-        <PageTitle title={title}></PageTitle>
-      </ContentLayout>
-
-      <div className="dashboard">
-        <UpsellSummary
-          columns={columns}
-          data={data}
-          addUpsellSummary={onAddUpsellSummary}
-          updateUpsellSummary={onUpdateUpsellSummary}
-          deleteUpsellSummary={onDeleteUpsellSummary}
-        ></UpsellSummary>
-        <div className="dashboard-additionalInfo">
+        <PageTitle title={title} xs={12}></PageTitle>
+        <CustomPaper title="Target vs Achieved" xs={6}>
           <PredictionInfo> </PredictionInfo>
-          <Divider />
+        </CustomPaper>
+        <CustomPaper title="Todays Forecast" xs={6}>
           <Forecast> </Forecast>
+        </CustomPaper>
+        <div xs={12} style={{ width: '90%' }}>
+          <UpsellSummary
+            columns={columns}
+            data={data}
+            addUpsellSummary={onAddUpsellSummary}
+            updateUpsellSummary={onUpdateUpsellSummary}
+            deleteUpsellSummary={onDeleteUpsellSummary}
+          ></UpsellSummary>
         </div>
-      </div>
+      </ContentLayout>
     </Fragment>
   );
 };
