@@ -18,6 +18,12 @@ const PostList = props => {
       title="Daily Posting"
       columns={columns}
       data={data}
+      options={{
+        headerStyle: {
+          backgroundColor: '#01579b',
+          color: '#FFF'
+        }
+      }}
       editable={{
         onRowAdd: newData =>
           new Promise(resolve => {
