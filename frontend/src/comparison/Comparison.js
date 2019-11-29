@@ -86,7 +86,7 @@ const Comparison = () => {
     'December'
   ];
 
-  const comparisonValues = ['Expected', 'Scored'];
+  const comparisonValues = ['Expected', 'Scored', 'ADR', 'RevPAR'];
 
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);

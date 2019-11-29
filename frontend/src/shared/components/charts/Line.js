@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 let data = [
   {
@@ -135,7 +127,6 @@ let data = [
 const CustomLineChart = () => {
   return (
     <LineChart width={window.innerWidth - 160} height={500} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="day" padding={{ left: 30, right: 30 }} />
       <YAxis type="number" domain={[0, 1]} />
       <Tooltip />

@@ -1,6 +1,18 @@
-import React, { PureComponent } from 'react';
-import { Bar, BarChart, LabelList, Legend, XAxis, YAxis } from 'recharts';
+import React from 'react';
+import { Bar, BarChart, Cell, LabelList, Legend, XAxis, YAxis } from 'recharts';
 import './SimpleBarChart.css';
+
+const colors = [
+  'red',
+  'yellow',
+  'blue',
+  'green',
+  'pink',
+  'gray',
+  'brown',
+  'orange',
+  'purple'
+];
 
 const data = [
   {
@@ -45,27 +57,34 @@ const data = [
   }
 ];
 
-export default class SimpleBarChart extends PureComponent {
-  render() {
-    return (
-      <BarChart
-        width={window.innerWidth - 160}
-        height={500}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-      >
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Legend />
-        <Bar dataKey="score" fill="#413ea0" className="bar">
-          <LabelList dataKey="score" position="top" />
-        </Bar>
-      </BarChart>
-    );
-  }
-}
+const SimpleBarChart = () => {
+  return (
+    <BarChart
+      width={window.innerWidth - 160}
+      height={500}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5
+      }}
+    >
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Legend />
+      <Bar dataKey="score" fill="#413ea0" className="bar">
+        {data.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            stroke={colors[index]}
+            fill={colors[index]}
+          />
+        ))}
+        <LabelList dataKey="score" position="top" />
+      </Bar>
+    </BarChart>
+  );
+};
+
+export default SimpleBarChart;

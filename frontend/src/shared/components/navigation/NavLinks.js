@@ -12,6 +12,7 @@ const NavLinks = props => {
       <NavLink to="performance">Performance</NavLink>
       <NavLink to="posts">Posts</NavLink>
       <NavLink to="signup">Signup</NavLink>
+      <NavLink to="color">ColorPalette</NavLink>
     </div>
   );
 };

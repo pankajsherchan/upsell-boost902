@@ -15,19 +15,23 @@ import Performance from './performance/Performance';
 import Posts from './post/pages/Posts';
 import RevenueSummary from './revenue-summary/RevenueSummary';
 import MainNavigation from './shared/components/navigation/MainNavigation';
+import ColorPalette from './shared/utils/ColorPalette';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: indigo[700] },
+    primary: { main: blue[900] },
     secondary: {
-      main: blue[900]
+      main: indigo[700]
     }
   },
   status: {
     danger: 'orange'
   },
   typography: {
-    fontFamily: ['"Lato"', 'sans-serif'].join(',')
+    fontFamily: ['Lato', 'sans-serif'].join(','),
+    h6: {
+      fontWeight: 'bold'
+    }
   }
 });
 
@@ -64,6 +68,10 @@ const App = () => {
 
             <Route path="/signup" exact>
               <SignUp />
+            </Route>
+
+            <Route path="/color" exact>
+              <ColorPalette />
             </Route>
 
             <Redirect to="/" />

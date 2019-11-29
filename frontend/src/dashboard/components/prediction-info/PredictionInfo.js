@@ -1,12 +1,15 @@
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { Fragment } from 'react';
+import React from 'react';
 import './PredictionInfo.css';
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    height: 160,
     backgroundColor: theme.palette.background.paper,
-    overflow: 'scroll'
+    overflow: 'scroll',
+    marginBottom: '-10px'
   },
   boldLabel: {
     fontWeight: 'bold',
@@ -24,15 +27,44 @@ const useStyles = makeStyles(theme => ({
 const PredictionInfo = () => {
   const classes = useStyles();
   return (
-    <Fragment className={classes.root}>
-      <div className={classes.dashboardInfo}>
-        <b className={classes.boldLabel}> Target : </b> 100
-      </div>
-
-      <div className={classes.dashboardInfo}>
-        <b className={classes.boldLabel}> Achieved : </b> 80
-      </div>
-    </Fragment>
+    <div className={classes.root}>
+      <Box
+        component="div"
+        fontWeight="fontWeightBold"
+        m={1}
+        color="text.primary"
+        fontSize={15}
+      >
+        Required Revenue :{' '}
+        <Box color="primary.main" display="inline" fontSize={18} marginLeft={1}>
+          25000
+        </Box>
+      </Box>
+      <Box
+        component="div"
+        fontWeight="fontWeightBold"
+        m={1}
+        color="text.primary"
+        fontSize={15}
+      >
+        Remaining Number of Days :{' '}
+        <Box color="primary.main" display="inline" fontSize={18} marginLeft={1}>
+          5
+        </Box>
+      </Box>
+      <Box
+        component="div"
+        fontWeight="fontWeightBold"
+        m={1}
+        color="text.primary"
+        fontSize={15}
+      >
+        Upsell Revenue required per Day :{' '}
+        <Box color="primary.main" display="inline" fontSize={18} marginLeft={1}>
+          5000
+        </Box>
+      </Box>
+    </div>
   );
 };
 

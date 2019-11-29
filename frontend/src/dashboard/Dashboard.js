@@ -1,11 +1,11 @@
-import { CssBaseline } from '@material-ui/core';
+import { Box, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { Fragment, useState } from 'react';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
-import CustomPaper from '../shared/components/layouts/content/CustomPaper';
+import InfoPanel from '../shared/components/layouts/content/InfoPanel';
 import PageTitle from '../shared/components/page-title/PageTitle';
 import Forecast from './components/forecast/Forecast';
-import PredictionInfo from './components/prediction-info/PredictionInfo';
+import PredictionGraph from './components/prediction-graph/PredictionGraph';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
 
@@ -27,6 +27,30 @@ const Dashboard = () => {
   ];
 
   const dataValue = [
+    {
+      name: 'test value',
+      totalRevenue: 'test value',
+      nights: 'test value',
+      incentive: 'test value'
+    },
+    {
+      name: 'test value',
+      totalRevenue: 'test value',
+      nights: 'test value',
+      incentive: 'test value'
+    },
+    {
+      name: 'test value',
+      totalRevenue: 'test value',
+      nights: 'test value',
+      incentive: 'test value'
+    },
+    {
+      name: 'test value',
+      totalRevenue: 'test value',
+      nights: 'test value',
+      incentive: 'test value'
+    },
     {
       name: 'test value',
       totalRevenue: 'test value',
@@ -67,21 +91,89 @@ const Dashboard = () => {
       <CssBaseline />
       <ContentLayout>
         <PageTitle title={title} xs={12}></PageTitle>
-        <CustomPaper title="Target vs Achieved" xs={6}>
-          <PredictionInfo> </PredictionInfo>
-        </CustomPaper>
-        <CustomPaper title="Todays Forecast" xs={6}>
-          <Forecast> </Forecast>
-        </CustomPaper>
-        <div xs={12} style={{ width: '90%' }}>
-          <UpsellSummary
-            columns={columns}
-            data={data}
-            addUpsellSummary={onAddUpsellSummary}
-            updateUpsellSummary={onUpdateUpsellSummary}
-            deleteUpsellSummary={onDeleteUpsellSummary}
-          ></UpsellSummary>
-        </div>
+
+        <Box display="flex">
+          <Box display="flex" flexDirection="column">
+            <Box component="div" display="flex">
+              <InfoPanel title="Required Revenue" color="#1769aa">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  25000
+                </Typography>
+              </InfoPanel>
+
+              <InfoPanel title="Remaining Number Of Days" color="#1769aa">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  5
+                </Typography>
+              </InfoPanel>
+
+              <InfoPanel
+                title="Upsell Revenue Required Per Day"
+                color="#1769aa"
+              >
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  5
+                </Typography>
+              </InfoPanel>
+            </Box>
+
+            <Box component="div" display="flex">
+              <InfoPanel title="Last Month Higher Achiever" color="#1769aa">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  Kathrene
+                </Typography>
+              </InfoPanel>
+
+              <InfoPanel title="MTD Highest Achiever" color="#1769aa">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  Angelique
+                </Typography>
+              </InfoPanel>
+
+              <InfoPanel title="Year to Date Highest Achiever" color="#1769aa">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ fontSize: '1rem' }}
+                >
+                  Moon
+                </Typography>
+              </InfoPanel>
+            </Box>
+          </Box>
+          <Box component="div" display="flex" flexGrow={1}>
+            <Forecast title="Todays Forecast" color="#1769aa"></Forecast>
+          </Box>
+        </Box>
+
+        <Box display="flex" style={{ width: '90%', marginTop: '15px' }}>
+          <Box style={{ width: '70%' }}>
+            <UpsellSummary columns={columns} data={data}></UpsellSummary>
+          </Box>
+          <Box>
+            <PredictionGraph title="Target vs Score Graph"> </PredictionGraph>
+          </Box>
+        </Box>
       </ContentLayout>
     </Fragment>
   );
