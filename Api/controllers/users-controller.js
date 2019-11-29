@@ -41,6 +41,20 @@ const createUser = async (req,res,next) => {
 
     const{email,firstName,lastName,password,phone} = req.body;
 
+    let existingUser;
+    try {
+        existingUser = await User.findOne({ email: email});
+    } catch (err) {
+        const error = new Error('Signing up failed, please try again!');
+        error.code = 500;
+        return next(error);
+    }
+    if(existingUser){
+        const error = new Error('User already exists, please login instead');
+        error.code = 422;
+        return next(error);
+    } 
+    
     const createdUser = new User({
         email,
         firstName,
