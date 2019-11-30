@@ -1,4 +1,7 @@
+const mongoose = require('mongoose');
+
 const User = require('../models/user');
+const Role = require('../models/role');
 
 const getAllUsers = async (req, res, next) => {
     let users;
@@ -11,7 +14,7 @@ const getAllUsers = async (req, res, next) => {
         return next(error);
     }
 
-    res.json({users});
+    res.json({users: users.map(user => user.toObject({getters: true}))});
 }
 
 const getUserById = async (req, res, next) => {
@@ -40,6 +43,7 @@ const getUserById = async (req, res, next) => {
 const createUser = async (req,res,next) => {
 
     const{email,firstName,lastName,password,phone} = req.body;
+    const roleId = "5de1af220bffa8204441d765";
 
     let existingUser;
     try {
@@ -60,17 +64,39 @@ const createUser = async (req,res,next) => {
         firstName,
         lastName,
         password,
-        roleId: 1,
+        roleId,
         phone
     });
 
+    let role;
+
     try{
-        await createdUser.save();
+        role = await Role.findById(roleId);
+    }
+    catch(err){
+        const error = new Error('Assigning role failed, please try again');
+        error.code = 500;
+        return next(error);
+    }
+
+    if(!role){
+        const error = new Error('Role not found');
+        error.code = 404;
+        return next(error);
+    }
+
+    try{
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await createdUser.save({ session: sess});
+        role.users.push(createdUser);
+        await role.save({ session: sess});
+        await sess.commitTransaction();
     } catch(err){
         console.log(err);
         return next(err);
     }
-    res.json({createdUser});
+    res.json({createdUser: createdUser.toObject({getters: true})});
 }
 
 const editUser = async (req, res, next) => {

@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const usersRoutes = require('./routes/users-routes');
 const postsRoutes = require('./routes/posts-routes');
 const loginRoutes = require('./routes/login-routes');
+const rolesRoutes = require('./routes/roles-routes');
 
 const app = express();
 
 app.use('/api/Users', usersRoutes.router);
 app.use('/api/Posts', postsRoutes);
+app.use('/api/Roles', rolesRoutes);
 app.use('/',loginRoutes);
 
 app.use((error,req,res,next) => {

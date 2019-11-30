@@ -34,7 +34,7 @@ const getAllPosts = async (req, res, next) => {
         error.code = 500;
         return next(error);
     }
-    res.json({posts});
+    res.json({posts: posts.map(post=>post.toObject({getters:true}))});
 }
 
 const createPost = (req,res,next) => {

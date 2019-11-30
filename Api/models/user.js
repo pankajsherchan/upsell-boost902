@@ -8,7 +8,7 @@ const userSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     password: { type: String, required: true, minlength:6 },
-    roleId: { type: Number, required: true },
+    roleId: { type: mongoose.Types.ObjectId, required: true, ref:'Role' },
     phone: { type: String, required: false }
 });
 
