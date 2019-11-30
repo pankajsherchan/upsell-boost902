@@ -18,6 +18,6 @@ router.get('/:pid', postsController.getPostById);
 router.put('/', postsController.editPost);
 
 //DELETE Post
-router.delete('/:pid', postsController.deletePost)
+router.delete('/:pid', postsController.deletePost);
 
 module.exports = router;

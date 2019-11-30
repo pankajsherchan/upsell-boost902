@@ -1,3 +1,3 @@
 module.exports = {
-    secret: 'YouBecomeWhatYouThink'
+  secret: 'YouBecomeWhatYouThink'
 };

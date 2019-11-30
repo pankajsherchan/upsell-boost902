@@ -5,9 +5,11 @@ const middleware = require('../authentication/checkToken');
 
 const router = express.Router();
 
-router.use(express.urlencoded({
+router.use(
+  express.urlencoded({
     extended: true
-}));
+  })
+);
 
 router.use(express.json());
 
