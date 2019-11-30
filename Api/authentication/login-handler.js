@@ -3,22 +3,25 @@ const jwt = require('jsonwebtoken');
 
 let config = require('./config');
 const users = require('../routes/users-routes');
+const User = require('../models/user');
 
-const checkUser = (email, password) => {
+const checkUser = async (email, password) => {
     let result = false;
-    const user = users.Users.find(u=>u.email===email && u.password === password);
+    const user = await User.findOne({email: email});
     if(user){
-        result = true;
+        if(user.password === password){
+            result = true;
+        }
     }
     return result;
 }
 
-const login = (req, res, next) => {
+const login = async (req, res, next) => {
     let email = req.body.email;
     let password = req.body.password;
 
     if(email&&password){
-        if(checkUser(email,password)){
+        if(await checkUser(email,password)){
             let token = jwt.sign({email: email},
                     config.secret,
                     {
