@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { Fragment } from 'react';
 
@@ -18,6 +18,7 @@ const ColorPalette = () => {
   const classes = useStyles();
   return (
     <Fragment>
+      <CssBaseline />
       <Box className={classes.box} bgcolor="primary.main">
         Primary Color
       </Box>
