@@ -1,6 +1,6 @@
 import { CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../../shared/components/page-title/PageTitle';
 import PostForm from '../components/PostForm';
@@ -21,25 +21,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Posts = () => {
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date('2014-08-18T21:11:54')
-  );
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
+  const [data, setData] = useState([]);
 
   const title = 'Daily Posting';
-  const POSTS = [
-    {
-      id: 1,
-      name: 'Post1'
-    },
-    {
-      id: 2,
-      name: 'Post2'
-    }
-  ];
 
   const columns = [
     {
@@ -49,12 +33,12 @@ const Posts = () => {
     },
     {
       title: 'Conf No.',
-      field: 'confNumber',
+      field: 'confNum',
       type: 'numeric'
     },
     {
       title: 'RTC',
-      field: 'rtc'
+      field: 'RTC'
     },
     {
       title: 'Upgraded To',
@@ -70,7 +54,7 @@ const Posts = () => {
     },
     {
       title: 'No. Nights',
-      field: 'numberOfNights',
+      field: 'numNights',
       type: 'numeric'
     },
     {
@@ -80,7 +64,7 @@ const Posts = () => {
     },
     {
       title: 'Commn',
-      field: 'commn',
+      field: 'commission',
       type: 'numeric'
     },
     {
@@ -93,32 +77,14 @@ const Posts = () => {
     }
   ];
 
-  const data = [
-    {
-      date: 'test value',
-      confNumber: 'test value',
-      rtc: 'test value',
-      upgradedTo: 'test value',
-      unitPrice: 'test value',
-      numberOfNights: 'test value',
-      revenue: 'test value',
-      commn: 'test value',
-      colleague: 'test value',
-      remark: 'test value'
-    },
-    {
-      date: 'test value 2',
-      confNumber: 'test value 2',
-      rtc: 'test value 2',
-      upgradedTo: 'test value 2',
-      unitPrice: 'test value 2',
-      numberOfNights: 'test value 2',
-      revenue: 'test value 2',
-      commn: 'test value 2',
-      colleague: 'test value 2',
-      remark: 'test value 2'
-    }
-  ];
+  useEffect(() => {
+    const sendRequest = async () => {
+      const response = await fetch('http://localhost:5000/api/Posts');
+      const responseData = await response.json();
+      setData(responseData.posts);
+    };
+    sendRequest();
+  }, []);
 
   return (
     <Fragment>
@@ -129,7 +95,9 @@ const Posts = () => {
         <PostForm />
 
         <div xs={12} md={12} style={{ width: '90%' }}>
-          <PostList items={POSTS} columns={columns} data={data}></PostList>
+          {data.length > 0 && (
+            <PostList columns={columns} data={data}></PostList>
+          )}
         </div>
       </ContentLayout>
     </Fragment>

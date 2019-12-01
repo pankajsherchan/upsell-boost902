@@ -5,13 +5,30 @@ const PostList = props => {
   const [columns, setColumns] = useState(props.columns);
   const [data, setData] = useState(props.data);
 
-  if (props.items.length === 0) {
+  if (props.data.length === 0) {
     return (
       <div>
         <h2> No items found </h2>
       </div>
     );
   }
+
+  const postAdd = async newData => {
+    try {
+      await fetch(
+        'http://localhost:5000/api/Posts',
+        'POST',
+        JSON.stringify({
+          newData
+        }),
+        {
+          'Content-Type': 'application/json'
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <MaterialTable
@@ -26,17 +43,18 @@ const PostList = props => {
         }
       }}
       editable={{
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setData(prevData => {
-                const data = [...prevData];
-                data.push(newData);
-                return [...prevData, newData];
-              });
-            }, 600);
-          }),
+        onRowAdd: postAdd,
+
+        // new Promise(resolve => {
+        //   setTimeout(() => {
+        //     resolve();
+        //     setData(prevData => {
+        //       const data = [...prevData];
+        //       data.push(newData);
+        //       return [...prevData, newData];
+        //     });
+        //   }, 600);
+        // }),
         onRowUpdate: (newData, oldData) =>
           new Promise(resolve => {
             setTimeout(() => {
