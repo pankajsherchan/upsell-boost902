@@ -21,7 +21,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Posts = () => {
-  const classes = useStyles();
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date('2014-08-18T21:11:54')
+  );
+
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
 
   const title = 'Daily Posting';
   const POSTS = [
@@ -36,16 +42,55 @@ const Posts = () => {
   ];
 
   const columns = [
-    { title: 'Date', field: 'date' },
-    { title: 'Conf No.', field: 'confNumber' },
-    { title: 'RTC', field: 'rtc' },
-    { title: 'Upgraded To', field: 'upgradedTo' },
-    { title: 'Unit Price', field: 'unitPrice' },
-    { title: 'No. Nights', field: 'numberOfNights' },
-    { title: 'Revenue', field: 'revenue' },
-    { title: 'Commn', field: 'commn' },
-    { title: 'Colleague', field: 'colleague' },
-    { title: 'Remark', field: 'remark' }
+    {
+      title: 'Date',
+      field: 'date',
+      type: 'date'
+    },
+    {
+      title: 'Conf No.',
+      field: 'confNumber',
+      type: 'numeric'
+    },
+    {
+      title: 'RTC',
+      field: 'rtc'
+    },
+    {
+      title: 'Upgraded To',
+      field: 'upgradedTo',
+      cellStyle: {
+        width: '150px'
+      }
+    },
+    {
+      title: 'Unit Price',
+      field: 'unitPrice',
+      type: 'numeric'
+    },
+    {
+      title: 'No. Nights',
+      field: 'numberOfNights',
+      type: 'numeric'
+    },
+    {
+      title: 'Revenue',
+      field: 'revenue',
+      type: 'numeric'
+    },
+    {
+      title: 'Commn',
+      field: 'commn',
+      type: 'numeric'
+    },
+    {
+      title: 'Colleague',
+      field: 'colleague'
+    },
+    {
+      title: 'Remark',
+      field: 'remark'
+    }
   ];
 
   const data = [

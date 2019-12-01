@@ -1,0 +1,33 @@
+/* table th {
+  font-weight: 800;
+  font-size: 1rem;
+  background-color: red;
+} */
+
+/* table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+} */
+
+/* table th:first-child {
+  font-weight: 800;
+  font-size: 1rem;
+  background-color: red;
+} */
+
+.table-title {
+  font-weight: 800 !important;
+  /* background: red; */
+  font-size: 1.25rem !important;
+}
+
+.table-head {
+  background: rgb(13, 71, 161);
+}
+
+.table-cell {
+  color: white !important;
+}

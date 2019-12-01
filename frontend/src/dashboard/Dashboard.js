@@ -21,47 +21,71 @@ const Dashboard = () => {
 
   const columnsValue = [
     { title: 'Name', field: 'name' },
-    { title: 'Total Revenue', field: 'totalRevenue' },
-    { title: 'Nights', field: 'nights' },
-    { title: 'Incentive', field: 'incentive' }
+    { title: 'Total Revenue', field: 'totalRevenue', type: 'numeric' },
+    { title: 'Nights', field: 'nights', type: 'numeric' },
+    { title: 'Incentive', field: 'incentive', type: 'numeric' }
   ];
 
   const dataValue = [
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     },
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     },
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     },
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     },
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     },
     {
-      name: 'test value',
-      totalRevenue: 'test value',
-      nights: 'test value',
-      incentive: 'test value'
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
+    },
+    {
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
+    },
+    {
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
+    },
+    {
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
+    },
+    {
+      name: 'Pankaj Shercha',
+      totalRevenue: 10,
+      nights: 10,
+      incentive: 10
     }
   ];
 

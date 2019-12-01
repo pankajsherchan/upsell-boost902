@@ -21,7 +21,8 @@ const PostList = props => {
       options={{
         headerStyle: {
           backgroundColor: '#01579b',
-          color: '#FFF'
+          color: '#FFF',
+          textAlign: 'center'
         }
       }}
       editable={{
