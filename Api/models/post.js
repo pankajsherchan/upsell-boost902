@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-  date: { type: String, required: true },
-  confNum: { type: String, required: true },
+  date: { type: Date, required: true },
+  confNum: { type: Number, required: true },
   RTC: { type: String, required: true },
   upgradedTo: { type: String, required: true },
   unitPrice: { type: Number, required: true },

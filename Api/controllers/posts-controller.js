@@ -35,7 +35,12 @@ const getAllPosts = async (req, res, next) => {
   res.json({ posts: posts.map(post => post.toObject({ getters: true })) });
 };
 
-const createPost = (req, res, next) => {
+const createPost = async (req, res, next) => {
+  if (!req.body) {
+    const error = new Error('Data is missing');
+    return next(error);
+  }
+
   const {
     confNum,
     RTC,
@@ -61,7 +66,13 @@ const createPost = (req, res, next) => {
     remark
   });
 
-  createdPost.save();
+  try {
+    await createdPost.save();
+  } catch (err) {
+    const error = new Error('Something went wrong, post could not be added!');
+    error.code = 500;
+    return next(error);
+  }
 
   res.json({ createdPost: createdPost.toObject({ getters: true }) });
 };
