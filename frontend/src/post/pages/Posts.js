@@ -1,5 +1,6 @@
 import { CssBaseline } from '@material-ui/core';
 import axios from 'axios';
+import { useFormik } from 'formik';
 import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../../shared/components/page-title/PageTitle';
@@ -10,6 +11,30 @@ const BASE_URL = 'http://localhost:5000/api';
 
 const Posts = () => {
   const [data, setData] = useState([]);
+  const [postInfo, setPostInfo] = useState({});
+
+  const formik = useFormik({
+    initialValues: {
+      arrival: '',
+      target: '',
+      achieve: ''
+    },
+    onSubmit: async postInfo => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        await axios
+          .post(`${BASE_URL}/PostInfo`, JSON.stringify(postInfo), config)
+          .then(res => {
+            formik.setValues(res.data.postInfo);
+          });
+      } catch (error) {}
+    }
+  });
 
   const title = 'Daily Posting';
 
@@ -70,7 +95,17 @@ const Posts = () => {
       const res = await axios.get(`${BASE_URL}/Posts`);
       setData(res.data.posts);
     };
+
     sendRequest();
+  }, []);
+
+  useEffect(() => {
+    const sendPostInfoRequest = async () => {
+      const res = await axios.get(`${BASE_URL}/PostInfo`);
+      formik.setValues(res.data.postInfo[0]);
+    };
+
+    sendPostInfoRequest();
   }, []);
 
   const addPost = async newData => {
@@ -123,13 +158,38 @@ const Posts = () => {
     } catch (error) {}
   };
 
+  const addPostInfo = async event => {
+    event.persist();
+    event.preventDefault();
+    console.log(event);
+    const data = new FormData(event.target);
+    console.log(data);
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      await axios
+        .post(`${BASE_URL}/PostInfo`, JSON.stringify(postInfo), config)
+        .then(res => {
+          setPostInfo(res.data.postInfo);
+        });
+    } catch (error) {}
+  };
+
   return (
     <Fragment>
       <CssBaseline />
       <ContentLayout>
         <PageTitle title={title}></PageTitle>
 
-        <PostForm />
+        <PostForm
+          postInfo={postInfo}
+          addPostInfo={addPostInfo}
+          formik={formik}
+        />
 
         <div xs={12} md={12} style={{ width: '90%' }}>
           {data && (

@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignUp = () => {
+const PostForm = props => {
   const classes = useStyles();
 
   return (
@@ -46,12 +46,16 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Posting Info
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={props.formik.handleSubmit}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="arrivals"
+                name="arrival"
                 variant="outlined"
                 required
                 fullWidth
@@ -59,6 +63,8 @@ const SignUp = () => {
                 label="Arrivals"
                 autoFocus
                 type="number"
+                value={props.formik.values.arrival}
+                onChange={props.formik.handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -71,6 +77,8 @@ const SignUp = () => {
                 name="target"
                 autoComplete="lname"
                 type="number"
+                value={props.formik.values.target}
+                onChange={props.formik.handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -80,27 +88,13 @@ const SignUp = () => {
                 fullWidth
                 id="achieved"
                 label="Achieved"
-                name="achieved"
+                name="achieve"
                 autoComplete="email"
                 type="number"
+                value={props.formik.values.achieve}
+                onChange={props.formik.handleChange}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="achieved %"
-                label="Achieved %"
-                id="achieved %"
-                autoComplete="current-Achieved %"
-                type="number"
-                defaultValue="0%"
-                InputProps={{
-                  readOnly: true
-                }}
-                disabled
-              />
-            </Grid> */}
           </Grid>
           <Button
             type="submit"
@@ -117,4 +111,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default PostForm;

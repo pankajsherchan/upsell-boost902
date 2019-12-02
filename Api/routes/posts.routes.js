@@ -1,6 +1,6 @@
 const express = require('express');
 
-const postsController = require('../controllers/posts-controller');
+const postsController = require('../controllers/posts');
 const router = express.Router();
 
 router.use(express.json());

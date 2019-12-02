@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     textAlign: 'center',
     height: '120px',
-    width: '300px'
+    width: '270px'
   }
 }));
 

@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const usersRoutes = require('./routes/users-routes');
-const postsRoutes = require('./routes/posts-routes');
-const loginRoutes = require('./routes/login-routes');
-const rolesRoutes = require('./routes/roles-routes');
+const usersRoutes = require('./routes/users.routes');
+const postsRoutes = require('./routes/posts.routes');
+const postInfoRoutes = require('./routes/post-info.routes');
+const loginRoutes = require('./routes/login.routes');
+const rolesRoutes = require('./routes/roles.routes');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 
 app.use('/api/Users', usersRoutes.router);
 app.use('/api/Posts', postsRoutes);
+app.use('/api/PostInfo', postInfoRoutes);
 app.use('/api/Roles', rolesRoutes);
 app.use('/', loginRoutes);
 

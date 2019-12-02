@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 let config = require('./config');
-const users = require('../routes/users-routes');
+const users = require('../routes/users.routes');
 const User = require('../models/user');
 
 const checkUser = async (email, password) => {
