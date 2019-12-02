@@ -37,8 +37,6 @@ const theme = createMuiTheme({
 
 export { theme };
 
-console.log(theme);
-
 const App = () => {
   return (
     <div>

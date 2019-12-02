@@ -1,24 +1,12 @@
 import { CssBaseline } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../../shared/components/page-title/PageTitle';
 import PostForm from '../components/PostForm';
 import PostList from '../components/PostList';
 
-const useStyles = makeStyles(theme => ({
-  boldLabel: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: '16px'
-  },
-  postInfo: {
-    margin: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-    fontSize: '16px'
-  }
-}));
+const BASE_URL = 'http://localhost:5000/api';
 
 const Posts = () => {
   const [data, setData] = useState([]);
@@ -79,12 +67,61 @@ const Posts = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch('http://localhost:5000/api/Posts');
-      const responseData = await response.json();
-      setData(responseData.posts);
+      const res = await axios.get(`${BASE_URL}/Posts`);
+      setData(res.data.posts);
     };
     sendRequest();
   }, []);
+
+  const addPost = async newData => {
+    try {
+      const addedData = JSON.stringify(newData);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      await axios.post(`${BASE_URL}/Posts`, addedData, config).then(res => {
+        setData([...data, res.data.createdPost]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deletePost = async post => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      await axios.delete(`${BASE_URL}/Posts/${post.id}`, config).then(res => {
+        const dataCopy = [...data];
+        dataCopy.splice(dataCopy.indexOf(post), 1);
+        setData(dataCopy);
+      });
+    } catch (error) {}
+  };
+
+  const updatePost = async (newData, oldData) => {
+    try {
+      const updatedPost = JSON.stringify(newData);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      await axios.put(`${BASE_URL}/Posts`, updatedPost, config).then(res => {
+        const dataCopy = [...data];
+        dataCopy[dataCopy.indexOf(oldData)] = newData;
+        setData(dataCopy);
+      });
+    } catch (error) {}
+  };
 
   return (
     <Fragment>
@@ -95,8 +132,14 @@ const Posts = () => {
         <PostForm />
 
         <div xs={12} md={12} style={{ width: '90%' }}>
-          {data.length > 0 && (
-            <PostList columns={columns} data={data}></PostList>
+          {data && (
+            <PostList
+              columns={columns}
+              data={data}
+              addPost={addPost}
+              deletePost={deletePost}
+              updatePost={updatePost}
+            ></PostList>
           )}
         </div>
       </ContentLayout>
