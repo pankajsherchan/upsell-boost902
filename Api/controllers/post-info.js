@@ -58,7 +58,7 @@ getPostInfo = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ postInfo: postInfo.toObject({ getters: true }) });
+  res.json({ postInfo: postInfo });
 };
 
 exports.addPostInfo = addPostInfo;
