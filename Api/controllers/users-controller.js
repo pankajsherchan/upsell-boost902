@@ -41,7 +41,7 @@ const getUserById = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   const { email, firstName, lastName, password, phone } = req.body;
-  const roleId = '5de1af220bffa8204441d765';
+  const roleId = '5de1aca8e2886f4ed48e280b';
 
   let existingUser;
   try {
