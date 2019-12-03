@@ -12,9 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
-import axios from 'axios';
-
-const BASE_URL = 'http://localhost:5000';
 
 function Copyright() {
   return (
@@ -54,29 +51,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const submitHandler = async (event) => {
-  event.preventDefault();
-  const data = new FormData(event.target);
-  let dataJson = {};
-  for (const [key, value] of data.entries()) {
-    dataJson[key] = value;
-  }
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  await axios.post(`${BASE_URL}/login`, dataJson, config)
-  .then(res =>  {
-    const token = 'Bearer '+res.data.token;
-    localStorage.setItem('token', token);   //Save token in browser
-   // console.log(localStorage.getItem('token'));
-    alert('Login Successful');
-  }).catch(error => {
-    console.log(error);
-  })
-}
-
 const SignIn = () => {
   const classes = useStyles();
 
@@ -90,7 +64,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form onSubmit={submitHandler} className={classes.form} noValidate>
+        <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -133,7 +107,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signUp" variant="body2">
+              <Link href="#" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

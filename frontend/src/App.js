@@ -16,7 +16,6 @@ import Posts from './post/pages/Posts';
 import RevenueSummary from './revenue-summary/RevenueSummary';
 import MainNavigation from './shared/components/navigation/MainNavigation';
 import ColorPalette from './shared/utils/ColorPalette';
-import SignIn from './features/authentication/signin/SignIn';
 
 const theme = createMuiTheme({
   palette: {
@@ -67,10 +66,6 @@ const App = () => {
 
             <Route path="/signup" exact>
               <SignUp />
-            </Route>
-
-            <Route path="/signin" exact>
-              <SignIn />
             </Route>
 
             <Route path="/color" exact>
