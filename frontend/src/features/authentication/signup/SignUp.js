@@ -12,6 +12,9 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:5000/api';
 
 function Copyright() {
   return (
@@ -51,6 +54,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const data = new FormData(event.target);
+  let dataJson = {};
+  for (const [key, value] of data.entries()) {
+    dataJson[key] = value;
+  }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  await axios.post(`${BASE_URL}/users/signUp`, dataJson, config).then(res => {
+    alert('Account Registration Successful!');
+  }).catch(error => {
+    console.log(error);
+  })
+}
+
 const SignUp = () => {
   const classes = useStyles();
 
@@ -64,7 +86,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={handleSubmit} className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -130,7 +152,7 @@ const SignUp = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signIn" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
