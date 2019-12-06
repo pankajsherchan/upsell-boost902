@@ -1,28 +1,3 @@
-// import MaterialTable from 'material-table';
-// import React, { useEffect } from 'react';
-
-// const UpsellSummary = props => {
-//   useEffect(() => {
-//     console.log(props.data);
-//   }, [props.data]);
-
-//   return (
-//     <MaterialTable
-//       title="Upselling Dashboard"
-//       columns={props.columns}
-//       data={props.data}
-//       options={{
-//         headerStyle: {
-//           backgroundColor: '#01579b',
-//           color: '#FFF'
-//         }
-//       }}
-//     />
-//   );
-// };
-
-// export default UpsellSummary;
-
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -30,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import _ from 'lodash';
 import React from 'react';
 import './UpsellSummary.css';
 
@@ -50,10 +26,11 @@ const ccyFormat = num => {
 };
 
 const UpsellSummary = props => {
+  console.log(props);
   const classes = useStyles();
-  const revenueSum = 100;
-  const totalNights = 100;
-  const totalCommn = 100;
+  const totalRevenue = _.sumBy(props.data, 'revenue');
+  const totalNight = _.sumBy(props.data, 'night');
+  const totalCommission = _.sumBy(props.data, 'commission');
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="spanning table" size="small">
@@ -78,19 +55,25 @@ const UpsellSummary = props => {
         </TableHead>
         <TableBody>
           {props.data.map(row => (
-            <TableRow key={row.name}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell align="right">{row.totalRevenue}</TableCell>
-              <TableCell align="right">{row.nights}</TableCell>
-              <TableCell align="right">{row.incentive}</TableCell>
+            <TableRow key={row.colleague}>
+              <TableCell>{row.colleague}</TableCell>
+              <TableCell align="right">{row.revenue}</TableCell>
+              <TableCell align="right">{row.night}</TableCell>
+              <TableCell align="right">{row.commission}</TableCell>
             </TableRow>
           ))}
 
           <TableRow>
             <TableCell style={{ fontWeight: 'bold' }}>Total</TableCell>
-            <TableCell align="right">{revenueSum}</TableCell>
-            <TableCell align="right">{totalNights}</TableCell>
-            <TableCell align="right">{totalCommn}</TableCell>
+            <TableCell align="right" style={{ fontWeight: 'bold' }}>
+              {totalRevenue}
+            </TableCell>
+            <TableCell align="right" style={{ fontWeight: 'bold' }}>
+              {totalNight}
+            </TableCell>
+            <TableCell align="right" style={{ fontWeight: 'bold' }}>
+              {totalCommission}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

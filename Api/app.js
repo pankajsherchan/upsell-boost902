@@ -7,7 +7,7 @@ const postsRoutes = require('./routes/posts.routes');
 const postInfoRoutes = require('./routes/post-info.routes');
 const loginRoutes = require('./routes/login.routes');
 const rolesRoutes = require('./routes/roles.routes');
-
+const dashboardRoutes = require('./routes/dashboard.routes');
 const app = express();
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -21,6 +21,7 @@ app.use('/api/Users', usersRoutes.router);
 app.use('/api/Posts', postsRoutes);
 app.use('/api/PostInfo', postInfoRoutes);
 app.use('/api/Roles', rolesRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/', loginRoutes);
 
 app.use((error, req, res, next) => {

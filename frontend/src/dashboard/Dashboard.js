@@ -1,6 +1,7 @@
 import { Box, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { Fragment, useState } from 'react';
+import axios from 'axios';
+import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import InfoPanel from '../shared/components/layouts/content/InfoPanel';
 import PageTitle from '../shared/components/page-title/PageTitle';
@@ -8,6 +9,8 @@ import Forecast from './components/forecast/Forecast';
 import PredictionGraph from './components/prediction-graph/PredictionGraph';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
+
+const BASE_URL = 'http://localhost:5000/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,90 +28,16 @@ const Dashboard = () => {
     { title: 'Nights', field: 'nights', type: 'numeric' },
     { title: 'Incentive', field: 'incentive', type: 'numeric' }
   ];
-
-  const dataValue = [
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    },
-    {
-      name: 'Pankaj Shercha',
-      totalRevenue: 10,
-      nights: 10,
-      incentive: 10
-    }
-  ];
-
   const [columns, setColumns] = useState(columnsValue);
-  const [data, setData] = useState(dataValue);
+  const [data, setData] = useState([]);
 
-  const onAddUpsellSummary = newData => {
-    setData([...data, newData]);
-  };
-
-  const onUpdateUpsellSummary = (oldData, updatedData) => {
-    const newList = [...data];
-    const index = data.indexOf(oldData);
-    newList[index] = updatedData;
-    setData(newList);
-  };
-
-  const onDeleteUpsellSummary = deletedData => {
-    const newList = [...data];
-    const index = data.indexOf(deletedData);
-    newList.splice(index, 1);
-    setData(newList);
-  };
+  useEffect(() => {
+    const sendRequest = async () => {
+      const res = await axios.get(`${BASE_URL}/dashboard`);
+      setData(res.data.result);
+    };
+    sendRequest();
+  }, []);
 
   return (
     <Fragment>
