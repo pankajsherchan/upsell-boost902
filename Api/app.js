@@ -8,6 +8,7 @@ const postInfoRoutes = require('./routes/post-info.routes');
 const loginRoutes = require('./routes/login.routes');
 const rolesRoutes = require('./routes/roles.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
+const revenueRoutes = require('./routes/revenue.routes');
 const app = express();
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -17,11 +18,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/Users', usersRoutes.router);
-app.use('/api/Posts', postsRoutes);
-app.use('/api/PostInfo', postInfoRoutes);
-app.use('/api/Roles', rolesRoutes);
+app.use('/api/users', usersRoutes.router);
+app.use('/api/posts', postsRoutes);
+app.use('/api/post-info', postInfoRoutes);
+app.use('/api/roles', rolesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/revenue', revenueRoutes);
 app.use('/', loginRoutes);
 
 app.use((error, req, res, next) => {

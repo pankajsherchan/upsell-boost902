@@ -25,16 +25,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const data = [
-  {
-    name: 'Target vs Score',
-    target: 4000,
-    achieved: 2400
-  }
-];
-
 const PredictionGraph = props => {
   const classes = useStyles();
+
+  const data = [
+    {
+      name: 'Target vs Score',
+      target: props.data.target,
+      achieved: props.data.achieve
+    }
+  ];
   return (
     <Paper className={classes.paper}>
       <Typography

@@ -30,11 +30,20 @@ const Dashboard = () => {
   ];
   const [columns, setColumns] = useState(columnsValue);
   const [data, setData] = useState([]);
+  const [postInfo, setPostInfo] = useState({});
 
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${BASE_URL}/dashboard`);
-      setData(res.data.result);
+      setData(res.data.dealSummary);
+    };
+    sendRequest();
+  }, []);
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const res = await axios.get(`${BASE_URL}/post-info`);
+      setPostInfo(res.data.postInfo[0]);
     };
     sendRequest();
   }, []);
@@ -124,7 +133,10 @@ const Dashboard = () => {
             <UpsellSummary columns={columns} data={data}></UpsellSummary>
           </Box>
           <Box>
-            <PredictionGraph title="Target vs Score Graph"> </PredictionGraph>
+            <PredictionGraph
+              title="Target vs Score Graph"
+              data={postInfo}
+            ></PredictionGraph>
           </Box>
         </Box>
       </ContentLayout>

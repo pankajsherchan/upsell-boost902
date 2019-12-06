@@ -26,7 +26,6 @@ const ccyFormat = num => {
 };
 
 const UpsellSummary = props => {
-  console.log(props);
   const classes = useStyles();
   const totalRevenue = _.sumBy(props.data, 'revenue');
   const totalNight = _.sumBy(props.data, 'night');

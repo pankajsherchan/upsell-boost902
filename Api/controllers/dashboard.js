@@ -31,7 +31,7 @@ getUpsellSummary = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ result });
+  res.json({ dealSummary: result });
 };
 
 exports.getUpsellSummary = getUpsellSummary;
