@@ -112,7 +112,7 @@ const Dashboard = () => {
                 </Typography>
               </InfoPanel>
 
-              <InfoPanel title="Year to Date Highest Achiever" color="#1769aa">
+              <InfoPanel title="YTD Highest Achiever" color="#1769aa">
                 <Typography
                   variant="h6"
                   gutterBottom
