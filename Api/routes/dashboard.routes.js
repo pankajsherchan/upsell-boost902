@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.get('/', dashboardController.getUpsellSummary);
-router.get('/info', dashboardController.getDashboardInfo);
+router.get('/', dashboardController.getDashboardInfo);
 
 module.exports = router;

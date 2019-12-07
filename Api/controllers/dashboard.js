@@ -1,10 +1,20 @@
 const _ = require('lodash');
 const Post = require('../models/post');
-const PostInfo = require('../models/post');
+const PostInfo = require('../models/post-info');
+const moment = require('moment');
 
-getUpsellSummary = async (req, res, next) => {
-  let posts;
-  let colleagueList;
+getDashboardInfo = async (req, res, next) => {
+  posts = await Post.find();
+  colleagueList = [...new Set(posts.map(p => p.colleague))];
+  postInfo = await PostInfo.find();
+
+  const upsellSummary = await getUpsellSummary(colleagueList, posts);
+  const revenueInfo = await getRevenueInfo(colleagueList, posts, postInfo);
+
+  return res.json({ upsellSummary, revenueInfo });
+};
+
+getUpsellSummary = async (colleagueList, posts) => {
   let result = [];
   try {
     posts = await Post.find();
@@ -32,36 +42,28 @@ getUpsellSummary = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ dealSummary: result });
+  return result;
 };
 
-getDashboardInfo = async (req, res, next) => {
-  let dashboardInfo;
-  let posts = [];
-  let postInfo = [];
+getRevenueInfo = async (colleagueList, posts, postInfo) => {
   let requiredRevenue = 0;
   let remainingNumberOfDays = 0;
-  let upsellRequiredPerDay = 0;
   let lastMonthAchiever = '';
   let mtdHighestAchiever = '';
   let ytdHighestAchiever = '';
 
   try {
-    posts = await Post.find();
-    postInfo = await PostInfo.find();
-
     const totalRevenue = _.sumBy(posts, 'revenue');
     requiredRevenue = postInfo[0].target - totalRevenue;
     remainingNumberOfDays = daysInThisMonth() - (new Date().getDay() + 1);
 
-    colleagueList = [...new Set(posts.map(p => p.colleague))];
+    lastMonthAchiever = getLastMonthHighestAchiever(colleagueList, posts);
 
-    const groupedByColleague = _.groupBy(posts, 'colleague');
-
-    colleagueList.map(colleague => {
-      const revenue = _.sumBy(groupedByColleague[colleague], 'revenue');
-    });
+    ytdHighestAchiever = getYTDHighestAchiever(colleagueList, posts);
+    mtdHighestAchiever = getMTDHighestAchiever(colleagueList, posts);
   } catch (err) {
+    console.log('err: ', err);
+
     const error = new Error('Something went wrong getting the dashboard info');
     error.code = 500;
     return next(error);
@@ -71,12 +73,12 @@ getDashboardInfo = async (req, res, next) => {
     requiredRevenue: requiredRevenue,
     remainingNumberOfDays: remainingNumberOfDays,
     upsellRequiredPerDay: requiredRevenue / remainingNumberOfDays,
-    lastMonthAchiever: '',
-    mtdHighestAchiever: '',
-    ytdHighestAchiever: ''
+    lastMonthAchiever,
+    mtdHighestAchiever,
+    ytdHighestAchiever
   };
 
-  res.json({ result });
+  return result;
 };
 
 daysInThisMonth = () => {
@@ -84,17 +86,65 @@ daysInThisMonth = () => {
   return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 };
 
-getLastMonthHighestAchiever = () => {
-  // get all the dates of last month
+getLastMonthHighestAchiever = (colleagueList, posts) => {
+  const currentDate = moment(moment(), 'YYYY/MM/DD');
+
+  const currentMonth = currentDate.format('M');
+
+  posts = posts.filter(
+    p => moment(p.date, 'YYYY/MM/DD').format('M') === currentMonth - 1
+  );
+  const groupedByColleague = _.groupBy(posts, 'colleague');
+
+  return getHighestAchiever(colleagueList, groupedByColleague);
 };
 
-getMTDHighestAchiever = () => {
-  // get all the dates between first and till date of the month
+getMTDHighestAchiever = (colleagueList, posts) => {
+  const currentDate = moment(moment(), 'YYYY/MM/DD');
+
+  const currentMonth = currentDate.format('M');
+
+  posts = posts.filter(
+    p => moment(p.date, 'YYYY/MM/DD').format('M') === currentMonth
+  );
+  const groupedByColleague = _.groupBy(posts, 'colleague');
+
+  return getHighestAchiever(colleagueList, groupedByColleague);
 };
 
-getYTDHighestAchiever = () => {
-  //get all the dates between Jan 01, 2019 to today
+getYTDHighestAchiever = (colleagueList, posts) => {
+  const currentDate = moment(moment(), 'YYYY/MM/DD');
+
+  const currentYear = currentDate.format('Y');
+
+  posts = posts.filter(
+    p => moment(p.date, 'YYYY/MM/DD').format('Y') === currentYear
+  );
+  const groupedByColleague = _.groupBy(posts, 'colleague');
+
+  return getHighestAchiever(colleagueList, groupedByColleague);
 };
 
-exports.getUpsellSummary = getUpsellSummary;
+getHighestAchiever = (colleagueList, groupedByColleague) => {
+  let highestAchiever = '';
+  let colleagueRevenue = 0;
+
+  colleagueList
+    .map(colleague => {
+      const revenue = _.sumBy(groupedByColleague[colleague], 'revenue');
+      return {
+        revenue,
+        colleague
+      };
+    })
+    .forEach(element => {
+      if (element.revenue > colleagueRevenue) {
+        colleagueRevenue = element.revenue;
+        highestAchiever = element.colleague;
+      }
+    });
+
+  return highestAchiever;
+};
+
 exports.getDashboardInfo = getDashboardInfo;
