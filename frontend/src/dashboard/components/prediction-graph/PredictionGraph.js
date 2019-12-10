@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PredictionGraph = props => {
-  console.log('props: ', props);
   const classes = useStyles();
 
   const data = [

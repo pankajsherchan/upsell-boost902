@@ -15,37 +15,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
-
 const CheckboxList = props => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([0]);
+  // const [selectedList, setSelectedList] = React.useState([]);
 
-  const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  // const handleToggle = value => () => {
+  //   console.log('value: ', value);
+  //   const currentIndex = selectedList.indexOf(value);
+  //   const newChecked = [...selectedList];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value);
+  //   } else {
+  //     newChecked.splice(currentIndex, 1);
+  //   }
 
-    setChecked(newChecked);
-  };
+  //   setSelectedList(newChecked);
+  // };
 
   return (
     <List className={classes.root}>
@@ -58,12 +44,12 @@ const CheckboxList = props => {
             role={undefined}
             dense
             button
-            onClick={handleToggle(value)}
+            onClick={props.setSelectedList(value)}
           >
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={checked.indexOf(value) !== -1}
+                checked={props.selectedList.indexOf(value) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}

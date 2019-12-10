@@ -16,21 +16,6 @@ import CheckboxList from './components/CheckboxList';
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
 
-const monthRange = [
-  '01 January 2019',
-  '01 February 2019',
-  '01 March 2019',
-  '01 April 2019',
-  '01 May 2019',
-  '01 June 2019',
-  '01 July 2019',
-  '01 August 2019',
-  '01 September 2019',
-  '01 October 2019',
-  '01 November 2019',
-  '01 December 2019'
-];
-
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.grey['100']
@@ -54,23 +39,104 @@ const Comparison = () => {
   const title = 'Comparison by Months';
   const DATA = [
     {
-      month: 'January',
-      target: 20,
-      score: 10
+      id: 1,
+      name: 'January',
+      scored: 4000,
+      expected: 2400,
+      adr: 1110,
+      revpar: 2220
     },
     {
-      month: 'February',
-      target: 25,
-      score: 20
+      id: 2,
+      name: 'February',
+      scored: 3000,
+      expected: 1398,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 3,
+      name: 'March',
+      scored: 2000,
+      expected: 1800,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 4,
+      name: 'April',
+      scored: 2780,
+      expected: 3908,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 5,
+      name: 'May',
+      scored: 1890,
+      expected: 4800,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 6,
+      name: 'June',
+      scored: 2390,
+      expected: 3800,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 7,
+      name: 'July',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 8,
+      name: 'August',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 9,
+      name: 'September',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 10,
+      name: 'October',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 11,
+      name: 'November',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
+    },
+    {
+      id: 12,
+      name: 'December',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220
     }
   ];
 
-  const [period, setPeriod] = useState(3);
-  const [start, setStart] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(DATA);
-  const [checked, setChecked] = React.useState([0]);
-
+  const DUPLICATE_DATA = [...DATA];
   const months = [
     'January',
     'February',
@@ -88,39 +154,106 @@ const Comparison = () => {
 
   const comparisonValues = ['Expected', 'Scored', 'ADR', 'RevPAR'];
 
-  const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(DATA);
+  const [selectedMonths, setMonths] = React.useState(months);
+  const [selectedComparisonItems, setComparisonItems] = React.useState(
+    comparisonValues
+  );
+
+  const onComparisonItemSelected = value => () => {
+    const currentIndex = selectedComparisonItems.indexOf(value);
+    const newChecked = [...selectedComparisonItems];
+    let newData = [];
 
     if (currentIndex === -1) {
+      const key = value.toLowerCase();
+      if (value === 'Scored') {
+        const toAddValue = DUPLICATE_DATA.map(({ scored, ...item }) => scored);
+        console.log('toAddValue: ', toAddValue);
+        const newData = data.map((value, index) => ({
+          ...value,
+          scored: toAddValue[index]
+        }));
+        console.log('newData: ', newData);
+        setData(newData);
+      } else if (value === 'Expected') {
+        const toAddValue = DUPLICATE_DATA.map(
+          ({ expected, ...item }) => expected
+        );
+        console.log('toAddValue: ', toAddValue);
+        const newData = data.map((value, index) => ({
+          ...value,
+          expected: toAddValue[index]
+        }));
+        console.log('newData: ', newData);
+        setData(newData);
+      } else if (value === 'ADR') {
+        const toAddValue = DUPLICATE_DATA.map(({ adr, ...item }) => adr);
+        console.log('toAddValue: ', toAddValue);
+        const newData = data.map((value, index) => ({
+          ...value,
+          adr: toAddValue[index]
+        }));
+        console.log('newData: ', newData);
+        setData(newData);
+      } else if (value === 'RevPAR') {
+        const toAddValue = DUPLICATE_DATA.map(({ revpar, ...item }) => revpar);
+        console.log('toAddValue: ', toAddValue);
+        const newData = data.map((value, index) => ({
+          ...value,
+          revpar: toAddValue[index]
+        }));
+        console.log('newData: ', newData);
+        setData(newData);
+      }
+
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
+      if (value === 'Scored') {
+        newData = data.map(({ scored, ...item }) => item);
+      } else if (value === 'Expected') {
+        newData = data.map(({ expected, ...item }) => item);
+      } else if (value === 'ADR') {
+        newData = data.map(({ adr, ...item }) => item);
+      } else if (value === 'RevPAR') {
+        newData = data.map(({ revPar, ...item }) => item);
+      }
+
+      newData.sort(function(a, b) {
+        return a.id - b.id;
+      });
+
+      setData(newData);
     }
 
-    setChecked(newChecked);
+    setComparisonItems(newChecked);
   };
 
-  const handleChangePeriod = (event, value) => {
-    setPeriod(value);
-    setLoading(false);
-    updateValues();
-  };
+  const onMonthSelected = value => () => {
+    const currentIndex = selectedMonths.indexOf(value);
+    const newChecked = [...selectedMonths];
 
-  const handleChangeStart = (event, value) => {
-    setStart(value);
-    setLoading(false);
-    updateValues();
-  };
+    if (currentIndex === -1) {
+      let newData = [...data];
 
-  const updateValues = () => {
-    const data = Array.from({ length: period + start }, (value, i) => {
-      const delayed = i < start;
-      return {
-        name: monthRange[i]
-      };
-    });
-    setData(data);
+      newChecked.push(value);
+      newData.push(DUPLICATE_DATA.filter(d => d.name === value)[0]);
+      newData = newData.sort(function(a, b) {
+        return a.id - b.id;
+      });
+      setData(newData);
+    } else {
+      newChecked.splice(currentIndex, 1);
+      let newData = [];
+      newData = data.filter(d => d.name !== value);
+      newData.sort(function(a, b) {
+        return a.id - b.id;
+      });
+      setData(newData);
+    }
+    setMonths(newChecked);
   };
 
   return (
@@ -130,11 +263,19 @@ const Comparison = () => {
         <PageTitle title={title} xs={12}></PageTitle>
 
         <CustomPaper title="SelectValue" xs={6}>
-          <CheckboxList data={comparisonValues} />
+          <CheckboxList
+            data={comparisonValues}
+            setSelectedList={onComparisonItemSelected}
+            selectedList={selectedComparisonItems}
+          />
         </CustomPaper>
 
         <CustomPaper title="SelectMonths" xs={6}>
-          <CheckboxList data={months} />
+          <CheckboxList
+            data={months}
+            setSelectedList={onMonthSelected}
+            selectedList={selectedMonths}
+          />
         </CustomPaper>
 
         <div xs={12} style={{ width: '90%' }}>

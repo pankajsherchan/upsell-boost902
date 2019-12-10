@@ -18,36 +18,26 @@ const useStyles = makeStyles(theme => ({
   mainColor: theme.palette.primary.main
 }));
 
-const data = [
-  { name: 'January', scored: 4000, expected: 2400 },
-  { name: 'February', scored: 3000, expected: 1398 },
-  { name: 'March', scored: 2000, expected: 9800 },
-  { name: 'April', scored: 2780, expected: 3908 },
-  { name: 'May', scored: 1890, expected: 4800 },
-  { name: 'June', scored: 2390, expected: 3800 },
-  { name: 'July', scored: 3490, expected: 4300 },
-  { name: 'August', scored: 3490, expected: 4300 },
-  { name: 'September', scored: 3490, expected: 4300 },
-  { name: 'October', scored: 3490, expected: 4300 },
-  { name: 'November', scored: 3490, expected: 4300 },
-  { name: 'December', scored: 3490, expected: 4300 }
-];
-
 const ResponsiveBarChart = props => {
   return (
-    <ResponsiveContainer width="99%" height={225}>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart
-        width={600}
-        height={300}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        width={500}
+        data={props.data}
+        margin={{ top: 50, right: 30, left: 30, bottom: 5 }}
       >
         <XAxis dataKey="name" />
         <YAxis tickSize={10} minTickGap={10} />
         <Tooltip />
         <Legend />
-        <Bar dataKey="scored" fill="#303f9f" />
-        <Bar dataKey="expected" fill="#01579b" />
+        {props.data[0].scored ? (
+          <Bar dataKey="scored" fill="#303f9f"></Bar>
+        ) : null}
+        {props.data[0].expected ? (
+          <Bar dataKey="expected" fill="#01579b" />
+        ) : null}
+        {props.data[0].adr ? <Bar dataKey="adr" fill="#303f9f"></Bar> : null}
+        {props.data[0].revpar ? <Bar dataKey="revpar" fill="#01579b" /> : null}
       </BarChart>
     </ResponsiveContainer>
   );
