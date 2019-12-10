@@ -17,21 +17,6 @@ const useStyles = makeStyles(theme => ({
 
 const CheckboxList = props => {
   const classes = useStyles();
-  // const [selectedList, setSelectedList] = React.useState([]);
-
-  // const handleToggle = value => () => {
-  //   console.log('value: ', value);
-  //   const currentIndex = selectedList.indexOf(value);
-  //   const newChecked = [...selectedList];
-
-  //   if (currentIndex === -1) {
-  //     newChecked.push(value);
-  //   } else {
-  //     newChecked.splice(currentIndex, 1);
-  //   }
-
-  //   setSelectedList(newChecked);
-  // };
 
   return (
     <List className={classes.root}>
