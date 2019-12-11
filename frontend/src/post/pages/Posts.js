@@ -17,9 +17,13 @@ const Posts = () => {
     initialValues: {
       arrival: '',
       target: '',
-      achieve: ''
+      achieve: '',
+      totalRoom: '',
+      totalSoldRoom: '',
+      month: ''
     },
     onSubmit: async postInfo => {
+      console.log('postInfo: ', postInfo);
       try {
         const config = {
           headers: {
@@ -28,7 +32,7 @@ const Posts = () => {
         };
 
         await axios
-          .post(`${BASE_URL}/PostInfo`, JSON.stringify(postInfo), config)
+          .post(`${BASE_URL}/post-info`, JSON.stringify(postInfo), config)
           .then(res => {
             formik.setValues(res.data.postInfo);
           });
@@ -42,7 +46,8 @@ const Posts = () => {
     {
       title: 'Date',
       field: 'date',
-      type: 'date'
+      type: 'date',
+      format: 'MM/dd/yyyy'
     },
     {
       title: 'Conf No.',
@@ -93,6 +98,8 @@ const Posts = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${BASE_URL}/Posts`);
+
+      console.log('formattedData: ', res.data.posts);
       setData(res.data.posts);
     };
 
@@ -101,14 +108,20 @@ const Posts = () => {
 
   useEffect(() => {
     const sendPostInfoRequest = async () => {
-      const res = await axios.get(`${BASE_URL}/PostInfo`);
-      formik.setValues(res.data.postInfo[0]);
+      const res = await axios.get(`${BASE_URL}/post-info`);
+      formik.setValues(res.data.postInfo);
     };
 
     sendPostInfoRequest();
   }, []);
 
   const addPost = async newData => {
+    console.log('newData: ', newData);
+    // const dataToAdd = {
+    //   ...newData,
+    //   date: moment(date, 'YYYY/MM/DD')
+    // };
+    console.log('dataToAdd: ', newData);
     try {
       const addedData = JSON.stringify(newData);
       const config = {
@@ -161,9 +174,7 @@ const Posts = () => {
   const addPostInfo = async event => {
     event.persist();
     event.preventDefault();
-    console.log(event);
     const data = new FormData(event.target);
-    console.log(data);
     try {
       const config = {
         headers: {

@@ -1,21 +1,38 @@
 const PostInfo = require('../models/post-info');
+const moment = require('moment');
 
 const addPostInfo = async (req, res, next) => {
   if (!req.body) {
     const error = new Error('Data is missing');
     return next(error);
   }
+  console.log('req: ', req);
 
-  const { arrival, target, achieve } = req.body;
-  const postInfoInDatabase = await PostInfo.find();
+  const {
+    arrival,
+    target,
+    achieve,
+    month,
+    totalRoom,
+    totalSoldRoom
+  } = req.body;
+  const postInfoList = await PostInfo.find();
+  let postInfoInDatabase;
 
-  if (postInfoInDatabase != null) {
-    postInfoInDatabase[0].arrival = arrival;
-    postInfoInDatabase[0].target = target;
-    postInfoInDatabase[0].achieve = achieve;
+  if (postInfoList) {
+    postInfoInDatabase = postInfoList.find(p => p.month === month);
+  }
+
+  if (postInfoInDatabase) {
+    postInfoInDatabase.arrival = arrival;
+    postInfoInDatabase.target = target;
+    postInfoInDatabase.achieve = achieve;
+    postInfoInDatabase.month = month;
+    postInfoInDatabase.totalRoom = totalRoom;
+    postInfoInDatabase.totalSoldRoom = totalSoldRoom;
 
     try {
-      await postInfoInDatabase[0].save();
+      await postInfoInDatabase.save();
     } catch (err) {
       const error = new Error(
         'Something went wrong, postinfo could not be updated!'
@@ -29,7 +46,10 @@ const addPostInfo = async (req, res, next) => {
     const postInfo = new PostInfo({
       arrival,
       target,
-      achieve
+      achieve,
+      month,
+      totalRoom,
+      totalSoldRoom
     });
 
     try {
@@ -48,8 +68,13 @@ const addPostInfo = async (req, res, next) => {
 getPostInfo = async (req, res, next) => {
   let postInfo;
 
+  const currentMonth = moment(new Date(), 'YYYY/MM/DD').format('MMMM');
+  console.log('currentMonth: ', currentMonth);
+
   try {
     postInfo = await PostInfo.find();
+    console.log('postInfo: ', postInfo);
+    postInfo = postInfo.find(p => p.month === currentMonth);
   } catch (err) {
     const error = new Error(
       'Something went wrong, post info could not be found'

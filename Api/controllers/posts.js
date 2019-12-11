@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const moment = require('moment');
 
 const getPostById = async (req, res, next) => {
   const postId = req.params.pid;
@@ -27,8 +28,9 @@ const getAllPosts = async (req, res, next) => {
 
   try {
     posts = await Post.find();
+
   } catch (err) {
-    const error = new Error('Something went weong. Posts could not be found.');
+    const error = new Error('Something went wrong. Posts could not be found.');
     error.code = 500;
     return next(error);
   }
@@ -36,12 +38,14 @@ const getAllPosts = async (req, res, next) => {
 };
 
 const createPost = async (req, res, next) => {
+  console.log('req: ', req);
   if (!req.body) {
     const error = new Error('Data is missing');
     return next(error);
   }
 
   const {
+    date,
     confNum,
     RTC,
     unitPrice,
@@ -54,7 +58,7 @@ const createPost = async (req, res, next) => {
   } = req.body;
 
   const createdPost = new Post({
-    date: Date.now().toString(),
+    date: date,
     confNum,
     RTC,
     unitPrice,

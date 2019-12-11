@@ -43,7 +43,7 @@ const Dashboard = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${BASE_URL}/post-info`);
-      setPostInfo(res.data.postInfo[0]);
+      setPostInfo(res.data.postInfo);
     };
     sendRequest();
   }, []);
@@ -74,7 +74,7 @@ const Dashboard = () => {
                     gutterBottom
                     style={{ fontSize: '1rem' }}
                   >
-                     {dashboardInfo.revenueInfo.remainingNumberOfDays}
+                    {dashboardInfo.revenueInfo.remainingNumberOfDays}
                   </Typography>
                 </InfoPanel>
 
@@ -87,7 +87,7 @@ const Dashboard = () => {
                     gutterBottom
                     style={{ fontSize: '1rem' }}
                   >
-                     {dashboardInfo.revenueInfo.upsellRequiredPerDay}
+                    {dashboardInfo.revenueInfo.upsellRequiredPerDay}
                   </Typography>
                 </InfoPanel>
               </Box>
@@ -99,7 +99,7 @@ const Dashboard = () => {
                     gutterBottom
                     style={{ fontSize: '1rem' }}
                   >
-                     {dashboardInfo.revenueInfo.lastMonthAchiever}
+                    {dashboardInfo.revenueInfo.lastMonthAchiever}
                   </Typography>
                 </InfoPanel>
 
@@ -109,7 +109,7 @@ const Dashboard = () => {
                     gutterBottom
                     style={{ fontSize: '1rem' }}
                   >
-                     {dashboardInfo.revenueInfo.mtdHighestAchiever}
+                    {dashboardInfo.revenueInfo.mtdHighestAchiever}
                   </Typography>
                 </InfoPanel>
 
@@ -119,7 +119,7 @@ const Dashboard = () => {
                     gutterBottom
                     style={{ fontSize: '1rem' }}
                   >
-                     {dashboardInfo.revenueInfo.ytdHighestAchiever}
+                    {dashboardInfo.revenueInfo.ytdHighestAchiever}
                   </Typography>
                 </InfoPanel>
               </Box>
@@ -129,6 +129,8 @@ const Dashboard = () => {
             </Box>
           </Box>
         ) : null}
+
+        {/* TODO: height: '450px', Upsell Summary should have the height same as Prediction Graph */}
         <Box display="flex" style={{ width: '90%', marginTop: '15px' }}>
           <Box style={{ width: '70%' }}>
             {dashboardInfo.upsellSummary ? (

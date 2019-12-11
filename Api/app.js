@@ -10,6 +10,7 @@ const rolesRoutes = require('./routes/roles.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const revenueRoutes = require('./routes/revenue.routes');
 const performanceRoutes = require('./routes/performance.routes');
+const comparisonRoutes = require('./routes/comparison.routes');
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.use('/api/roles', rolesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/revenue', revenueRoutes);
 app.use('/api/performance', performanceRoutes);
+app.use('/api/comparison', comparisonRoutes);
 app.use('/', loginRoutes);
 
 app.use((error, req, res, next) => {

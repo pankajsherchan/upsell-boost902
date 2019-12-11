@@ -1,3 +1,4 @@
+import { MenuItem } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -30,6 +31,10 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
   }
 }));
 
@@ -81,7 +86,38 @@ const PostForm = props => {
                 onChange={props.formik.handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="totalRoom"
+                variant="outlined"
+                required
+                fullWidth
+                id="totalRoom"
+                label="Total Room"
+                autoFocus
+                type="number"
+                value={props.formik.values.totalRoom}
+                onChange={props.formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="totalSoldRoom"
+                label="Total Sold Room"
+                name="totalSoldRoom"
+                autoComplete="lname"
+                type="number"
+                value={props.formik.values.totalSoldRoom}
+                onChange={props.formik.handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
@@ -94,6 +130,35 @@ const PostForm = props => {
                 value={props.formik.values.achieve}
                 onChange={props.formik.handleChange}
               />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="month"
+                label="Month"
+                name="month"
+                autoComplete="email"
+                type="number"
+                value={props.formik.values.month}
+                onChange={props.formik.handleChange}
+                select
+              >
+                <MenuItem value={'January'}>January</MenuItem>
+                <MenuItem value={'February'}>February</MenuItem>
+                <MenuItem value={'March'}>March</MenuItem>
+                <MenuItem value={'April'}>April</MenuItem>
+                <MenuItem value={'May'}>May</MenuItem>
+                <MenuItem value={'June'}>June</MenuItem>
+                <MenuItem value={'July'}>July</MenuItem>
+                <MenuItem value={'August'}>August</MenuItem>
+                <MenuItem value={'September'}>September</MenuItem>
+                <MenuItem value={'October'}>October</MenuItem>
+                <MenuItem value={'November'}>November</MenuItem>
+                <MenuItem value={'December'}>December</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
           <Button

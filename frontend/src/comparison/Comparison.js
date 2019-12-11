@@ -170,41 +170,33 @@ const Comparison = () => {
       const key = value.toLowerCase();
       if (value === 'Scored') {
         const toAddValue = DUPLICATE_DATA.map(({ scored, ...item }) => scored);
-        console.log('toAddValue: ', toAddValue);
         const newData = data.map((value, index) => ({
           ...value,
           scored: toAddValue[index]
         }));
-        console.log('newData: ', newData);
         setData(newData);
       } else if (value === 'Expected') {
         const toAddValue = DUPLICATE_DATA.map(
           ({ expected, ...item }) => expected
         );
-        console.log('toAddValue: ', toAddValue);
         const newData = data.map((value, index) => ({
           ...value,
           expected: toAddValue[index]
         }));
-        console.log('newData: ', newData);
         setData(newData);
       } else if (value === 'ADR') {
         const toAddValue = DUPLICATE_DATA.map(({ adr, ...item }) => adr);
-        console.log('toAddValue: ', toAddValue);
         const newData = data.map((value, index) => ({
           ...value,
           adr: toAddValue[index]
         }));
-        console.log('newData: ', newData);
         setData(newData);
       } else if (value === 'RevPAR') {
         const toAddValue = DUPLICATE_DATA.map(({ revpar, ...item }) => revpar);
-        console.log('toAddValue: ', toAddValue);
         const newData = data.map((value, index) => ({
           ...value,
           revpar: toAddValue[index]
         }));
-        console.log('newData: ', newData);
         setData(newData);
       }
 
