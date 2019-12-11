@@ -21,6 +21,18 @@
   text-decoration: underline;
 }
 
+.nav_button {
+  text-decoration: none !important;
+  background: orangered !important;
+}
+
+.nav_email {
+  text-decoration: none !important;
+  color: orange !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 @media (min-width: 768px) {
   .nav-links {
     flex-direction: row;

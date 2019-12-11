@@ -7,7 +7,7 @@ import './MainNavigation.css';
 import NavLinks from './NavLinks';
 import SideDrawer from './SideDrawer';
 
-const MainNavigation = () => {
+const MainNavigation = props => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const openDrawer = () => {
