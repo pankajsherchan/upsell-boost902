@@ -7,8 +7,8 @@ const SimpleBarChart = props => {
   return (
     <ResponsiveContainer width="100%" height={500}>
       <BarChart
-        width={window.innerWidth - 800}
-        height={window.innerHeight - 400}
+        width={props.width}
+        height={props.height}
         data={props.data}
         margin={{
           top: 50,
@@ -20,11 +20,16 @@ const SimpleBarChart = props => {
         <XAxis dataKey="name" />
         <YAxis domain={[0, 'dataMax + 1000']} minTickGap={20} />
         <Legend />
-        <Bar dataKey="score" fill="#413ea0" className="bar" barSize={50}>
+        <Bar
+          dataKey={props.dataKey}
+          fill="#413ea0"
+          className="bar"
+          barSize={50}
+        >
           {props.data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={props.colors[index]} />
           ))}
-          <LabelList dataKey="score" position="top" />
+          <LabelList dataKey={props.dataKey} position="top" />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

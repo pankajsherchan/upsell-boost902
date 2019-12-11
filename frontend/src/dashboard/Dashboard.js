@@ -132,7 +132,7 @@ const Dashboard = () => {
 
         {/* TODO: height: '450px', Upsell Summary should have the height same as Prediction Graph */}
         <Box display="flex" style={{ width: '90%', marginTop: '15px' }}>
-          <Box style={{ width: '70%' }}>
+          <Box style={{ width: '65%', height: '450px' }}>
             {dashboardInfo.upsellSummary ? (
               <UpsellSummary
                 columns={columns}

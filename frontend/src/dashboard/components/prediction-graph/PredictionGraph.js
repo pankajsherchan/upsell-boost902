@@ -1,7 +1,14 @@
 import { Divider, Paper, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { Bar, BarChart, Legend, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  Legend,
+  ResponsiveContainer,
+  XAxis,
+  YAxis
+} from 'recharts';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -19,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     margin: theme.spacing(2),
     textAlign: 'center',
-    height: '450px',
+    height: '400px',
     width: '400px',
     marginTop: '-5px'
   }
@@ -46,25 +53,28 @@ const PredictionGraph = props => {
         {props.title}
       </Typography>
       <Divider />
-      <BarChart
-        width={350}
-        height={350}
-        data={data}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-        label="45"
-      >
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Legend />
-        <Tooltip />
-        <Bar dataKey="target" fill="#303f9f" />
-        <Bar dataKey="achieved" fill="#01579b" />
-      </BarChart>
+
+      <ResponsiveContainer width="100%">
+        <BarChart
+          width={350}
+          height={350}
+          data={data}
+          margin={{
+            top: 50,
+            right: 50,
+            left: 50,
+            bottom: 25
+          }}
+          label="45"
+        >
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Legend />
+          <Tooltip />
+          <Bar dataKey="target" fill="#303f9f" barSize={50} />
+          <Bar dataKey="achieved" fill="#01579b" barSize={50} />
+        </BarChart>
+      </ResponsiveContainer>
     </Paper>
   );
 };

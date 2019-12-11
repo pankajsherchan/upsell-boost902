@@ -1,6 +1,7 @@
 import { CssBaseline } from '@material-ui/core';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../../shared/components/page-title/PageTitle';
@@ -47,7 +48,7 @@ const Posts = () => {
       title: 'Date',
       field: 'date',
       type: 'date',
-      format: 'MM/dd/yyyy'
+      format: 'DD/MM/YYYY'
     },
     {
       title: 'Conf No.',
@@ -99,7 +100,11 @@ const Posts = () => {
     const sendRequest = async () => {
       const res = await axios.get(`${BASE_URL}/Posts`);
 
-      console.log('formattedData: ', res.data.posts);
+      res.data.posts.map(p => {
+        p.date = moment(p.date).format('DD/MM/YYYY');
+        return p;
+      });
+
       setData(res.data.posts);
     };
 
@@ -116,14 +121,13 @@ const Posts = () => {
   }, []);
 
   const addPost = async newData => {
-    console.log('newData: ', newData);
-    // const dataToAdd = {
-    //   ...newData,
-    //   date: moment(date, 'YYYY/MM/DD')
-    // };
-    console.log('dataToAdd: ', newData);
     try {
-      const addedData = JSON.stringify(newData);
+      const addedData = JSON.stringify({
+        ...newData,
+        date: moment(newData.date).format('DD/MM/YYYY')
+      });
+      console.log('addedData: ', addedData);
+
       const config = {
         headers: {
           'Content-Type': 'application/json'
@@ -131,6 +135,7 @@ const Posts = () => {
       };
 
       await axios.post(`${BASE_URL}/Posts`, addedData, config).then(res => {
+        console.log('res: ', res);
         setData([...data, res.data.createdPost]);
       });
     } catch (error) {

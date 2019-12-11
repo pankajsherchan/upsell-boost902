@@ -72,7 +72,7 @@ getRevenueInfo = async (colleagueList, posts, postInfo) => {
   const result = {
     requiredRevenue: requiredRevenue,
     remainingNumberOfDays: remainingNumberOfDays,
-    upsellRequiredPerDay: requiredRevenue / remainingNumberOfDays,
+    upsellRequiredPerDay: (requiredRevenue / remainingNumberOfDays).toFixed(2),
     lastMonthAchiever,
     mtdHighestAchiever,
     ytdHighestAchiever

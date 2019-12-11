@@ -54,6 +54,9 @@ const Performance = () => {
   let colleagueList = [];
   let DATA = [];
 
+  const width = window.innerWidth - 800;
+  const height = window.innerHeight - 400;
+
   const [selectedColleague, setColleague] = React.useState([]);
   const [originalColleagueList, setOriginalColleague] = React.useState([]);
   const [data, setData] = useState([]);
@@ -119,7 +122,13 @@ const Performance = () => {
                   Comparison By Colleague
                 </Typography>
                 <Divider />
-                <SimpleBarChart data={data} colors={colors} />
+                <SimpleBarChart
+                  data={data}
+                  colors={colors}
+                  dataKey="score"
+                  height={height}
+                  width={width}
+                />
               </div>
             </Paper>
           </Grid>
