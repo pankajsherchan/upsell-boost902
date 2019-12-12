@@ -8,11 +8,11 @@ import {
   Switch
 } from 'react-router-dom';
 import './App.css';
+import SignIn from './authentication/signin/SignIn';
+import SignUp from './authentication/signup/SignUp';
 import Comparison from './comparison/Comparison';
 import AuthContext from './context/auth-context';
 import Dashboard from './dashboard/Dashboard';
-import SignIn from './features/authentication/signin/SignIn';
-import SignUp from './features/authentication/signup/SignUp';
 import Performance from './performance/Performance';
 import Posts from './post/pages/Posts';
 import RevenueSummary from './revenue-summary/RevenueSummary';

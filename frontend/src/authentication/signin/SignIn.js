@@ -11,9 +11,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router';
-import AuthContext from '../../../context/auth-context';
+import AuthContext from '../../context/auth-context';
 
 const BASE_URL = 'http://localhost:5000';
 
@@ -55,37 +56,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const submitHandler = (setIsLoggedIn, setToDashboard, setUser, event) => {
+const submitHandler = async (setIsLoggedIn, setToDashboard, setUser, event) => {
   event.preventDefault();
-  setIsLoggedIn(true);
 
-  setToDashboard(true);
-
-  localStorage.setItem('token', 'thisistoken');
-
-  // try {
-  //   const data = new FormData(event.target);
-  //   let dataJson = {};
-  //   for (const [key, value] of data.entries()) {
-  //     dataJson[key] = value;
-  //   }
-  //   const config = {
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   };
-  //   await axios
-  //     .post(`${BASE_URL}/login`, dataJson, config)
-  //     .then(res => {
-  //       const token = 'Bearer ' + res.data.token;
-  //       localStorage.setItem('token', token); //Save token in browser
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  try {
+    const data = new FormData(event.target);
+    let dataJson = {};
+    for (const [key, value] of data.entries()) {
+      dataJson[key] = value;
+    }
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    await axios
+      .post(`${BASE_URL}/login`, dataJson, config)
+      .then(res => {
+        const token = 'Bearer ' + res.data.token;
+        localStorage.setItem('token', token); //Save token in browser
+        setIsLoggedIn(true);
+        setToDashboard(true);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const SignIn = () => {

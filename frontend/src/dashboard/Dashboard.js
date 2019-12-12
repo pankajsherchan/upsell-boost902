@@ -37,7 +37,6 @@ const Dashboard = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${BASE_URL}/dashboard`);
-      console.log('res: ', res);
       setDashboardInfo(res.data);
     };
     sendRequest();

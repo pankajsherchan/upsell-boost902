@@ -24,7 +24,6 @@ const Posts = () => {
       month: ''
     },
     onSubmit: async postInfo => {
-      console.log('postInfo: ', postInfo);
       try {
         const config = {
           headers: {
@@ -126,7 +125,6 @@ const Posts = () => {
         ...newData,
         date: moment(newData.date).format('DD/MM/YYYY')
       });
-      console.log('addedData: ', addedData);
 
       const config = {
         headers: {
@@ -135,7 +133,6 @@ const Posts = () => {
       };
 
       await axios.post(`${BASE_URL}/Posts`, addedData, config).then(res => {
-        console.log('res: ', res);
         setData([...data, res.data.createdPost]);
       });
     } catch (error) {

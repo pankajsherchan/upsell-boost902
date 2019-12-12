@@ -11,8 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
 import axios from 'axios';
+import React from 'react';
 
 const BASE_URL = 'http://localhost:5000/api';
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const handleSubmit = async (event) => {
+const handleSubmit = async event => {
   event.preventDefault();
   const data = new FormData(event.target);
   let dataJson = {};
@@ -66,12 +66,16 @@ const handleSubmit = async (event) => {
       'Content-Type': 'application/json'
     }
   };
-  await axios.post(`${BASE_URL}/users/signUp`, dataJson, config).then(res => {
-    alert('Account Registration Successful!');
-  }).catch(error => {
-    console.log(error);
-  })
-}
+  console.log('data: ', dataJson);
+  await axios
+    .post(`${BASE_URL}/users/signUp`, dataJson, config)
+    .then(res => {
+      alert('Account Registration Successful!');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 const SignUp = () => {
   const classes = useStyles();
