@@ -1,7 +1,9 @@
 import { Box, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { Redirect } from 'react-router';
+import AuthContext from '../context/auth-context';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import InfoPanel from '../shared/components/layouts/content/InfoPanel';
 import PageTitle from '../shared/components/page-title/PageTitle';
@@ -9,6 +11,7 @@ import Forecast from './components/forecast/Forecast';
 import PredictionGraph from './components/prediction-graph/PredictionGraph';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
+
 const BASE_URL = 'http://localhost:5000/api';
 
 const useStyles = makeStyles(theme => ({
@@ -47,6 +50,13 @@ const Dashboard = () => {
     };
     sendRequest();
   }, []);
+
+  const isLoggedIn = useContext(AuthContext).isLoggedIn;
+  const token = localStorage.getItem('token');
+
+  if (!isLoggedIn && !token) {
+    return <Redirect to="/signup" />;
+  }
 
   return (
     <Fragment>

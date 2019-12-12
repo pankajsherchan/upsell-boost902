@@ -61,6 +61,8 @@ const submitHandler = (setIsLoggedIn, setToDashboard, setUser, event) => {
 
   setToDashboard(true);
 
+  localStorage.setItem('token', 'thisistoken');
+
   // try {
   //   const data = new FormData(event.target);
   //   let dataJson = {};

@@ -7,9 +7,17 @@ import './NavLinks.css';
 const NavLinks = props => {
   const isLoggedIn = useContext(AuthContext).isLoggedIn;
   const setIsLoggedIn = useContext(AuthContext).setIsLoggedIn;
+
+  console.log('localStorage.getItem: ', localStorage.getItem('token'));
   console.log('isLoggedIn: ', isLoggedIn);
 
+  // this is when user refreshs
+  if (localStorage.getItem('token')) {
+    setIsLoggedIn(true);
+  }
+
   const logout = () => {
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
     props.history.push('/signup');
   };
@@ -24,12 +32,20 @@ const NavLinks = props => {
           <NavLink to="comparison">Comparison</NavLink>
           <NavLink to="performance">Performance</NavLink>
           <NavLink to="posts">Posts</NavLink>
-          <NavLink to="" className="nav_email">
-            <Icon style={{ marginBottom: '-6px', marginRight: '5px' }}>
+          <p
+            className="nav_email"
+            style={{ marginRight: '15px', marginLeft: '15px' }}
+          >
+            <Icon
+              style={{
+                marginBottom: '-6px',
+                marginRight: '5px'
+              }}
+            >
               account_box
             </Icon>
             user.email@gmail.com
-          </NavLink>
+          </p>
           <Button
             variant="contained"
             color="primary"
