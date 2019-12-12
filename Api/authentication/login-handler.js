@@ -20,16 +20,19 @@ const login = async (req, res, next) => {
   let email = req.body.email;
   let password = req.body.password;
 
+  let result;
+
   if (email && password) {
     if (await checkUser(email, password)) {
       let token = jwt.sign({ email: email }, config.secret, {
         expiresIn: '24h'
       });
-      res.json({
+
+      result = {
         success: true,
         message: 'Authentication successful',
         token: token
-      });
+      };
     } else {
       const error = new Error(
         'Authentication failed! Email or password is not correct.'
@@ -38,6 +41,8 @@ const login = async (req, res, next) => {
       return next(error);
     }
   }
+
+  res.json({ result });
 };
 
 const index = (req, res) => {
