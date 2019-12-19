@@ -38,7 +38,7 @@ const ResponsiveBarChart = props => {
           />
         ) : null}
         {props.data[0].scored ? (
-          <Bar dataKey="scored" fill="#303f9f"></Bar>
+          <Bar dataKey="scored" fill="orange"></Bar>
         ) : null}
         {/* {props.data[0].expected ? (
           <Bar dataKey="expected" fill="#01579b" />
