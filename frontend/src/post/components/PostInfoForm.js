@@ -30,11 +30,14 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 400
   }
 }));
 
@@ -42,7 +45,7 @@ const PostInfoForm = props => {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -57,7 +60,7 @@ const PostInfoForm = props => {
           onSubmit={props.formik.handleSubmit}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="fname"
                 name="arrival"
@@ -72,7 +75,7 @@ const PostInfoForm = props => {
                 onChange={props.formik.handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -87,7 +90,7 @@ const PostInfoForm = props => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="fname"
                 name="totalRoom"
@@ -102,7 +105,7 @@ const PostInfoForm = props => {
                 onChange={props.formik.handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -117,7 +120,7 @@ const PostInfoForm = props => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -132,7 +135,7 @@ const PostInfoForm = props => {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -163,7 +166,8 @@ const PostInfoForm = props => {
           </Grid>
           <Button
             type="submit"
-            fullWidth
+            // fullWidth
+            style={{ width: '50%' }}
             variant="contained"
             color="primary"
             className={classes.submit}

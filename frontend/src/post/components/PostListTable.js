@@ -5,6 +5,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -25,7 +27,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
 
-export default function PostListTable() {
+const PostListTable = props => {
   const classes = useStyles();
 
   return (
@@ -36,35 +38,49 @@ export default function PostListTable() {
           <TableRow>
             <TableCell>Date</TableCell>
             <TableCell align="right">Conf No.</TableCell>
-            <TableCell align="right">RTC&nbsp;(g)</TableCell>
-            <TableCell align="right">Upgraded To&nbsp;(g)</TableCell>
-            <TableCell align="right">Unit Price&nbsp;(g)</TableCell>
-            <TableCell align="right">No. Nights &nbsp;(g)</TableCell>
-            <TableCell align="right">Revenue &nbsp;(g)</TableCell>
-            <TableCell align="right">Commission &nbsp;(g)</TableCell>
-            <TableCell align="right">Commission &nbsp;(g)</TableCell>
-            <TableCell align="right">Remark &nbsp;(g)</TableCell>
+            <TableCell align="right">RTC&nbsp;</TableCell>
+            <TableCell align="right">Upgraded To&nbsp;</TableCell>
+            <TableCell align="right">Unit Price&nbsp;</TableCell>
+            <TableCell align="right">No. Nights &nbsp;</TableCell>
+            <TableCell align="right">Revenue &nbsp;</TableCell>
+            <TableCell align="right">Commission &nbsp;</TableCell>
+            <TableCell align="right">Colleague &nbsp;</TableCell>
+            <TableCell align="right">Remark &nbsp;</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {props.postList.map((row, index) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.date}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.confNum}</TableCell>
+              <TableCell align="right">{row.rtc}</TableCell>
+              <TableCell align="right">{row.upgradedTo}</TableCell>
+              <TableCell align="right">{row.unitPrice}</TableCell>
+              <TableCell align="right">{row.numNights}</TableCell>
+              <TableCell align="right">{row.revenue}</TableCell>
+              <TableCell align="right">{row.commission}</TableCell>
+              <TableCell align="right">{row.colleague}</TableCell>
+              <TableCell align="right">{row.remark}</TableCell>
+              <TableCell align="right">
+                {' '}
+                <EditOutlinedIcon
+                  onClick={() => props.onEdit(row, index)}
+                  className="actions-icon"
+                />{' '}
+                <DeleteOutlinedIcon
+                  onClick={() => props.onDelete(row, index)}
+                  className="actions-icon"
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </Paper>
   );
-}
+};
+
+export default PostListTable;

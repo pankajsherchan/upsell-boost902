@@ -5,6 +5,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -13,19 +15,7 @@ const useStyles = makeStyles({
   }
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9)
-];
-
-export default function PostInfoTable() {
+const PostInfoTable = props => {
   const classes = useStyles();
 
   return (
@@ -34,37 +24,44 @@ export default function PostInfoTable() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell align="right">Conf No.</TableCell>
-            <TableCell align="right">RTC&nbsp;(g)</TableCell>
-            <TableCell align="right">Upgraded To&nbsp;(g)</TableCell>
-            <TableCell align="right">Unit Price&nbsp;(g)</TableCell>
-            <TableCell align="right">No. Nights &nbsp;(g)</TableCell>
-            <TableCell align="right">Revenue &nbsp;(g)</TableCell>
-            <TableCell align="right">Commission &nbsp;(g)</TableCell>
-            <TableCell align="right">Commission &nbsp;(g)</TableCell>
-            <TableCell align="right">Remark &nbsp;(g)</TableCell>
+            <TableCell>Arrivals</TableCell>
+            <TableCell align="right">Target</TableCell>
+            <TableCell align="right">Total Room&nbsp;</TableCell>
+            <TableCell align="right">Total Sold Room&nbsp;</TableCell>
+            <TableCell align="right">Achieved&nbsp;</TableCell>
+            <TableCell align="right">Month&nbsp;</TableCell>
+
+            <TableCell align="right"> Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
+          {props.postInfoList.map((row, index) => (
+            <TableRow key={row.month}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.arrival}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.target}</TableCell>
+              <TableCell align="right">{row.totalRoom}</TableCell>
+              <TableCell align="right">{row.totalSoldRoom}</TableCell>
+              <TableCell align="right">{row.achieve}</TableCell>
+              <TableCell align="right">{row.month}</TableCell>
+              <TableCell align="right">
+                {' '}
+                <EditOutlinedIcon
+                  onClick={() => props.onEdit(row, index)}
+                  className="actions-icon"
+                />{' '}
+                <DeleteOutlinedIcon
+                  onClick={() => props.onDelete(row, index)}
+                  className="actions-icon"
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </Paper>
   );
-}
+};
+
+export default PostInfoTable;
