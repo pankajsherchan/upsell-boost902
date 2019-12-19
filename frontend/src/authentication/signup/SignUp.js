@@ -14,8 +14,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
 import React from 'react';
 
-const BASE_URL = 'http://localhost:5000/api';
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -68,7 +66,7 @@ const handleSubmit = async event => {
   };
   console.log('data: ', dataJson);
   await axios
-    .post(`${BASE_URL}/users/signUp`, dataJson, config)
+    .post(`${process.env.REACT_APP_API_URL}/users/signUp`, dataJson, config)
     .then(res => {
       alert('Account Registration Successful!');
     })

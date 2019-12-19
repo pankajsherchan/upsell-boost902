@@ -14,7 +14,7 @@ import Comparison from './comparison/Comparison';
 import AuthContext from './context/auth-context';
 import Dashboard from './dashboard/Dashboard';
 import Performance from './performance/Performance';
-import Posts from './post/pages/Posts';
+import PostPage from './post/pages/PostPage';
 import RevenueSummary from './revenue-summary/RevenueSummary';
 import MainNavigation from './shared/components/navigation/MainNavigation';
 import ColorPalette from './shared/utils/ColorPalette';
@@ -79,7 +79,7 @@ const App = () => {
               </Route>
 
               <Route path="/posts" exact>
-                <Posts />
+                <PostPage />
               </Route>
 
               <Route path="/signup" exact>

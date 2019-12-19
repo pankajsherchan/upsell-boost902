@@ -8,8 +8,8 @@ import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined'
 import ListOutlinedIcon from '@material-ui/icons/ListOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
-import PostInfo from '../components/PostInfo';
-import PostList from '../components/PostList';
+import PostInfo from '../containers/PostInfo';
+import PostList from '../containers/PostList';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

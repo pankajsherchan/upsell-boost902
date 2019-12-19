@@ -5,15 +5,13 @@ import CustomLineChart from '../shared/components/charts/Line';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../shared/components/page-title/PageTitle';
 
-const BASE_URL = 'http://localhost:5000/api';
-
 const RevenueSummary = () => {
   const title = 'Revenue Summary Page';
   const [revenue, setRevenueData] = useState([]);
 
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`${BASE_URL}/revenue`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/revenue`);
       setRevenueData(res.data.revenueByDay);
     };
     sendRequest();

@@ -15,8 +15,6 @@ import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import CustomPaper from '../shared/components/layouts/content/CustomPaper';
 import PageTitle from '../shared/components/page-title/PageTitle';
 
-const BASE_URL = 'http://localhost:5000/api';
-
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.grey['100']
@@ -64,7 +62,9 @@ const Performance = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`${BASE_URL}/performance`);
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/performance`
+      );
       setData(res.data.comparisonByColleague);
       setOriginalData(res.data.comparisonByColleague);
 

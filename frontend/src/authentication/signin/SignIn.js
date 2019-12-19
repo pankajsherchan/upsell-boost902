@@ -16,8 +16,6 @@ import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router';
 import AuthContext from '../../context/auth-context';
 
-const BASE_URL = 'http://localhost:5000';
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -71,7 +69,7 @@ const submitHandler = async (setIsLoggedIn, setToDashboard, setUser, event) => {
       }
     };
     await axios
-      .post(`${BASE_URL}/login`, dataJson, config)
+      .post(`${process.env.REACT_APP_API_URL}/login`, dataJson, config)
       .then(res => {
         const token = 'Bearer ' + res.data.token;
         localStorage.setItem('token', token); //Save token in browser

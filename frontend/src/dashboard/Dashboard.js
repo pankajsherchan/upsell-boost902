@@ -12,8 +12,6 @@ import PredictionGraph from './components/prediction-graph/PredictionGraph';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
 
-const BASE_URL = 'http://localhost:5000/api';
-
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.grey['100']
@@ -36,7 +34,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`${BASE_URL}/dashboard`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/dashboard`);
+
+      console.log('res: ', res);
       setDashboardInfo(res.data);
     };
     sendRequest();
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`${BASE_URL}/post-info`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
       setPostInfo(res.data.postInfo);
     };
     sendRequest();
