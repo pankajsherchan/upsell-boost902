@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PostForm = props => {
+const PostInfoForm = props => {
   const classes = useStyles();
 
   return (
@@ -176,4 +176,4 @@ const PostForm = props => {
   );
 };
 
-export default PostForm;
+export default PostInfoForm;

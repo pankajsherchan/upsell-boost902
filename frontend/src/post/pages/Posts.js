@@ -5,13 +5,29 @@ import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
 import ContentLayout from '../../shared/components/layouts/content/ContentLayout';
 import PageTitle from '../../shared/components/page-title/PageTitle';
-import PostForm from '../components/PostForm';
+import PostInfo from '../components/PostInfo';
 import PostList from '../components/PostList';
+import './Post.css';
+// import IconLabelTabs from './Tab';
+import IconLabelTabs from './Tab';
 
 const BASE_URL = 'http://localhost:5000/api';
 
 const Posts = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      date: '05/10/2015',
+      confNum: 5,
+      RTC: 5,
+      upgradedTo: 'ramro',
+      unitPrice: 20,
+      numNights: 10,
+      revenue: 30,
+      commission: 20,
+      colleague: 'Test',
+      remark: 'Test Remarking'
+    }
+  ]);
   const [postInfo, setPostInfo] = useState({});
 
   const formik = useFormik({
@@ -42,6 +58,16 @@ const Posts = () => {
 
   const title = 'Daily Posting';
 
+  const onNumberOfNightsChange = (index, value) => {
+    console.log('index: ', index);
+    console.log('value: ', value);
+  };
+
+  const onUnitPriceChange = (index, value) => {
+    console.log('index: ', index);
+    console.log('value: ', value);
+  };
+
   const columns = [
     {
       title: 'Date',
@@ -69,6 +95,42 @@ const Posts = () => {
       title: 'Unit Price',
       field: 'unitPrice',
       type: 'numeric'
+    },
+
+    {
+      title: 'Unit Price',
+      field: 'unitPrice',
+      type: 'numeric',
+      editComponent: props => (
+        // <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl">
+        <div>
+          <input
+            className="custom-input MuiInputBase-input MuiInput-input"
+            type="number"
+            value={props.value}
+            onChange={e => onUnitPriceChange(e.target.value)}
+            placeholder="Unit Price"
+          />
+        </div>
+      )
+    },
+
+    {
+      title: 'No. Nights',
+      field: 'numNights',
+      type: 'numeric',
+      editComponent: props => (
+        // <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl">
+        <div>
+          <input
+            className="custom-input MuiInputBase-input MuiInput-input"
+            type="number"
+            value={props.value}
+            onChange={e => onNumberOfNightsChange(e.target.value)}
+            placeholder="No. Nights"
+          />
+        </div>
+      )
     },
     {
       title: 'No. Nights',
@@ -197,23 +259,21 @@ const Posts = () => {
       <CssBaseline />
       <ContentLayout>
         <PageTitle title={title}></PageTitle>
-
-        <PostForm
-          postInfo={postInfo}
-          addPostInfo={addPostInfo}
-          formik={formik}
-        />
-
-        <div xs={12} md={12} style={{ width: '90%' }}>
-          {data && (
-            <PostList
-              columns={columns}
-              data={data}
-              addPost={addPost}
-              deletePost={deletePost}
-              updatePost={updatePost}
-            ></PostList>
-          )}
+        <div>
+          <IconLabelTabs
+            postInfo={<PostInfo />}
+            dailyPost={
+              data && (
+                <PostList
+                  columns={columns}
+                  data={data}
+                  addPost={addPost}
+                  deletePost={deletePost}
+                  updatePost={updatePost}
+                ></PostList>
+              )
+            }
+          ></IconLabelTabs>
         </div>
       </ContentLayout>
     </Fragment>

@@ -1,0 +1,30 @@
+.custom-input {
+  font: inherit;
+  color: currentColor;
+  width: 100%;
+  /* border: 0; */
+  height: 1.1875em;
+  margin: 0;
+  display: block;
+  padding: 6px 0 7px;
+  min-width: 0;
+  /* background: none; */
+  box-sizing: content-box;
+  animation-name: MuiInputBase-keyframes-auto-fill-cancel;
+  -webkit-tap-highlight-color: transparent;
+
+  /* outline: 0; */
+  /* background: transparent; */
+  border-bottom: 1px solid #0000005c !important;
+}
+
+/* .custom-input:focus {
+  background: white !important;
+  border: none !important;
+  border: 0;
+  border-color: white !important;
+} */
+
+.custom-input:focus {
+  border-bottom: 2px solid #0d47a1 !important;
+}
