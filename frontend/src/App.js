@@ -18,6 +18,7 @@ import PostPage from './post/pages/PostPage';
 import RevenueSummary from './revenue-summary/RevenueSummary';
 import MainNavigation from './shared/components/navigation/MainNavigation';
 import ColorPalette from './shared/utils/ColorPalette';
+import Users from './users/Users';
 
 console.log('AuthContext: ', AuthContext);
 const theme = createMuiTheme({
@@ -88,6 +89,11 @@ const App = () => {
 
               <Route path="/signin" exact>
                 <SignIn />
+              </Route>
+
+              <Route path="/users" exact>
+                {' '}
+                <Users />
               </Route>
 
               <Route path="/color" exact>

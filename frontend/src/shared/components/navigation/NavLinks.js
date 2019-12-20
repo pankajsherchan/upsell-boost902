@@ -32,6 +32,7 @@ const NavLinks = props => {
           <NavLink to="comparison">Comparison</NavLink>
           <NavLink to="performance">Performance</NavLink>
           <NavLink to="posts">Posts</NavLink>
+          <NavLink to="users"> Users</NavLink>
           <p
             className="nav_email"
             style={{ marginRight: '15px', marginLeft: '15px' }}
