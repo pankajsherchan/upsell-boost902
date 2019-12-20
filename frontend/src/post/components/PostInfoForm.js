@@ -1,4 +1,3 @@
-import { MenuItem } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -137,31 +136,21 @@ const PostInfoForm = props => {
 
             <Grid item xs={12} sm={4}>
               <TextField
+                id="date"
                 variant="outlined"
-                required
+                label="Date"
+                type="date"
+                min="2018-01-01"
+                max="2018-12-31"
+                defaultValue=""
                 fullWidth
-                id="month"
-                label="Month"
-                name="month"
-                autoComplete="email"
-                type="number"
-                value={props.formik.values.month}
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                value={props.formik.values.date}
                 onChange={props.formik.handleChange}
-                select
-              >
-                <MenuItem value={'January'}>January</MenuItem>
-                <MenuItem value={'February'}>February</MenuItem>
-                <MenuItem value={'March'}>March</MenuItem>
-                <MenuItem value={'April'}>April</MenuItem>
-                <MenuItem value={'May'}>May</MenuItem>
-                <MenuItem value={'June'}>June</MenuItem>
-                <MenuItem value={'July'}>July</MenuItem>
-                <MenuItem value={'August'}>August</MenuItem>
-                <MenuItem value={'September'}>September</MenuItem>
-                <MenuItem value={'October'}>October</MenuItem>
-                <MenuItem value={'November'}>November</MenuItem>
-                <MenuItem value={'December'}>December</MenuItem>
-              </TextField>
+              ></TextField>
             </Grid>
           </Grid>
           <div style={{ display: 'flex', justifyContent: 'center' }}>

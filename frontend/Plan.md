@@ -27,3 +27,11 @@
 ## Dialog Box
 
 - success / failure dialog box
+
+## DEPLOYMENT - NODE JS API
+
+- delete the app in heroku
+- follow this link: https://dashboard.heroku.com/apps/upsell-902/deploy/heroku-git
+- start with git add .
+- git commit -am 'comments'
+- git push heroku master

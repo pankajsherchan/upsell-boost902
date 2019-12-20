@@ -41,6 +41,7 @@ const rows = [
 
 const Forecast = props => {
   const classes = useStyles();
+
   return (
     <Paper className={classes.paper}>
       <Typography
@@ -73,10 +74,10 @@ const Forecast = props => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
+            {props.data.map(row => (
+              <TableRow key={row.shift}>
                 <TableCell component="th" scope="row">
-                  {row.shiftName}
+                  {row.shift}
                 </TableCell>
                 <TableCell align="center">{row.expectedArrival}</TableCell>
                 <TableCell align="center">{row.expectedUpsell}</TableCell>

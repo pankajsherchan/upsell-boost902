@@ -1,16 +1,25 @@
 import { Box, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
+import moment from 'moment';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
 import AuthContext from '../context/auth-context';
 import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import InfoPanel from '../shared/components/layouts/content/InfoPanel';
 import PageTitle from '../shared/components/page-title/PageTitle';
+import * as dateHelper from '../shared/utils/Date';
+// import EXPECTATION from '../shared/constants/index';
 import Forecast from './components/forecast/Forecast';
 import PredictionGraph from './components/prediction-graph/PredictionGraph';
 import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
+
+const EXPECTATION = {
+  MORNING_SHIFT: 5,
+  AFTERNOON_SHIFT: 8,
+  EVENING_SHIFT: 5
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +29,8 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const title = 'Dashboard Page';
-  const classes = useStyles();
+
+  const todaysDate = moment().format('llll');
 
   const columnsValue = [
     { title: 'Name', field: 'name' },
@@ -28,15 +38,15 @@ const Dashboard = () => {
     { title: 'Nights', field: 'nights', type: 'numeric' },
     { title: 'Incentive', field: 'incentive', type: 'numeric' }
   ];
+
   const [columns, setColumns] = useState(columnsValue);
+  const [forecast, setForecast] = useState([]);
   const [dashboardInfo, setDashboardInfo] = useState({});
   const [postInfo, setPostInfo] = useState({});
 
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/dashboard`);
-
-      console.log('res: ', res);
       setDashboardInfo(res.data);
     };
     sendRequest();
@@ -45,13 +55,50 @@ const Dashboard = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
-      setPostInfo(res.data.postInfo);
+
+      res.data.postInfoList.map(data => {
+        data.date = dateHelper.formatDate(data.date, 'MM/DD/YYYY');
+        return data;
+      });
+
+      const postInfo = res.data.postInfoList.find(
+        p => p.date === dateHelper.formatDate(moment(), 'MM/DD/YYYY')
+      );
+
+      if (postInfo) {
+        setForecast(getForecast(postInfo.arrival));
+      }
+
+      console.log('postInfo: ', postInfo);
+
+      setPostInfo(postInfo);
     };
     sendRequest();
   }, []);
 
   const isLoggedIn = useContext(AuthContext).isLoggedIn;
   const token = localStorage.getItem('token');
+
+  const getForecast = arrival => {
+    const forecast = [
+      {
+        shift: 'Morning',
+        expectedArrival: (EXPECTATION.MORNING_SHIFT / 100) * arrival,
+        expectedUpsell: EXPECTATION.MORNING_SHIFT
+      },
+      {
+        shift: 'Afternoon',
+        expectedArrival: (EXPECTATION.AFTERNOON_SHIFT / 100) * arrival,
+        expectedUpsell: EXPECTATION.AFTERNOON_SHIFT
+      },
+      {
+        shift: 'Evening',
+        expectedArrival: (EXPECTATION.EVENING_SHIFT / 100) * arrival,
+        expectedUpsell: EXPECTATION.EVENING_SHIFT
+      }
+    ];
+    return forecast;
+  };
 
   if (!isLoggedIn && !token) {
     return <Redirect to="/signup" />;
@@ -61,7 +108,7 @@ const Dashboard = () => {
     <Fragment>
       <CssBaseline />
       <ContentLayout>
-        <PageTitle title={title} xs={12}></PageTitle>
+        <PageTitle title={title} date={todaysDate} xs={12}></PageTitle>
 
         {dashboardInfo.revenueInfo ? (
           <Box display="flex">
@@ -134,7 +181,11 @@ const Dashboard = () => {
               </Box>
             </Box>
             <Box component="div" display="flex" flexGrow={1}>
-              <Forecast title="Todays Forecast" color="#1769aa"></Forecast>
+              <Forecast
+                title="Todays Forecast"
+                color="#1769aa"
+                data={forecast}
+              ></Forecast>
             </Box>
           </Box>
         ) : null}

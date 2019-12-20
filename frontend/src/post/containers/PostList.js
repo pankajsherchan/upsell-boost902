@@ -127,9 +127,6 @@ const PostList = props => {
 
   const deletePost = async (post, index) => {
     console.log('post: ', post);
-    // // ! TODO: this needs to be removed
-    // postList.splice(index, 1);
-    // setPostList([...postList]);
 
     try {
       const config = {

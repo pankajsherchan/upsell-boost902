@@ -1,6 +1,7 @@
 import { Divider } from '@material-ui/core';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import PostInfoForm from '../components/PostInfoForm';
 import PostInfoTable from '../components/PostInfoTable';
@@ -13,7 +14,8 @@ const PostInfo = props => {
       achieve: '',
       totalRoom: '',
       totalSoldRoom: '',
-      month: ''
+      month: '',
+      date: ''
     },
     onSubmit: async postInfo => {
       submitPostInfo(postInfo);
@@ -26,6 +28,10 @@ const PostInfo = props => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
+      res.data.postInfoList.map(p => {
+        p.date = formatDisplayDate(p.date);
+        return p;
+      });
       setPostInfoList(res.data.postInfoList);
     };
 
@@ -48,21 +54,20 @@ const PostInfo = props => {
             );
 
             const newList = [...postInfoList];
-            newList[updatedItemIndex] = data;
+            newList[updatedItemIndex] = {
+              ...data,
+              date: formatDisplayDate(data.date)
+            };
+
+            newList.map(p => {
+              p.date = formatDisplayDate(p.date);
+              return p;
+            });
 
             setPostInfoList(newList);
           });
       } catch (error) {}
     } else {
-      // show alert when adding postinfo for existing month
-      const postInfoOfMonth = postInfoList.find(p => p.month === data.month);
-
-      if (postInfoOfMonth) {
-        return alert(
-          'Post Info for this month already exists. Please edit the existing data'
-        );
-      }
-
       try {
         const config = {
           headers: {
@@ -72,8 +77,13 @@ const PostInfo = props => {
         await axios
           .post(`${process.env.REACT_APP_API_URL}/post-info`, data, config)
           .then(res => {
-            console.log('res: ', res);
-            setPostInfoList([...postInfoList, res.data.postInfo]);
+            const newList = [...postInfoList, res.data.postInfo];
+            newList.map(p => {
+              p.date = formatDisplayDate(p.date);
+              return p;
+            });
+
+            setPostInfoList(newList);
           });
       } catch (error) {
         console.log(error);
@@ -100,7 +110,33 @@ const PostInfo = props => {
 
   const updatePostInfo = (data, index) => {
     setEditMode(true);
-    formik.setValues(data);
+    const formattedData = {
+      ...data,
+      date: formatDate(data.date) // the date has to be this format to work in the edit mode
+    };
+    formik.setValues(formattedData);
+  };
+
+  const formatDate = date => {
+    return moment(date).format('YYYY-MM-DD');
+  };
+
+  const formatDisplayDate = date => {
+    const formattedDate = moment
+      .utc(date)
+      .format('llll')
+      .split(' ');
+
+    console.log('formattedDate: ', formattedDate);
+    return (
+      formattedDate[0] +
+      ' ' +
+      formattedDate[1] +
+      ' ' +
+      formattedDate[2] +
+      ' ' +
+      formattedDate[3]
+    );
   };
 
   return (

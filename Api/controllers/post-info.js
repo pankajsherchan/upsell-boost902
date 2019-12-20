@@ -13,7 +13,8 @@ const addPostInfo = async (req, res, next) => {
     achieve,
     month,
     totalRoom,
-    totalSoldRoom
+    totalSoldRoom,
+    date
   } = req.body;
 
   const postInfo = new PostInfo({
@@ -22,7 +23,8 @@ const addPostInfo = async (req, res, next) => {
     achieve,
     month,
     totalRoom,
-    totalSoldRoom
+    totalSoldRoom,
+    date
   });
 
   try {

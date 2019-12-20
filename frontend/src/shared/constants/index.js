@@ -1,0 +1,5 @@
+export default EXPECTATION = {
+  MORNING_SHIFT: 5,
+  AFTERNOON_SHIFT: 8,
+  EVENING_SHIFT: 5
+};

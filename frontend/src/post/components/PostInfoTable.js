@@ -29,7 +29,7 @@ const PostInfoTable = props => {
             <TableCell align="right">Total Room&nbsp;</TableCell>
             <TableCell align="right">Total Sold Room&nbsp;</TableCell>
             <TableCell align="right">Achieved&nbsp;</TableCell>
-            <TableCell align="right">Month&nbsp;</TableCell>
+            <TableCell align="right">Date&nbsp;</TableCell>
 
             <TableCell align="right"> Actions</TableCell>
           </TableRow>
@@ -44,7 +44,7 @@ const PostInfoTable = props => {
               <TableCell align="right">{row.totalRoom}</TableCell>
               <TableCell align="right">{row.totalSoldRoom}</TableCell>
               <TableCell align="right">{row.achieve}</TableCell>
-              <TableCell align="right">{row.month}</TableCell>
+              <TableCell align="right">{row.date}</TableCell>
               <TableCell align="right">
                 {' '}
                 <EditOutlinedIcon

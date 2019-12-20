@@ -66,7 +66,7 @@ export default function IconLabelTabs() {
         aria-label="icon label tabs example"
       >
         <Tab icon={<ListOutlinedIcon />} label="Daily Posting"></Tab>
-        <Tab icon={<CalendarTodayOutlinedIcon />} label="Post Info"></Tab>
+        <Tab icon={<CalendarTodayOutlinedIcon />} label="Set Up"></Tab>
       </Tabs>
 
       <TabPanel value={value} index={0}>
