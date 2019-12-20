@@ -28,7 +28,6 @@ const getAllPosts = async (req, res, next) => {
 
   try {
     posts = await Post.find();
-
   } catch (err) {
     const error = new Error('Something went wrong. Posts could not be found.');
     error.code = 500;
@@ -47,25 +46,23 @@ const createPost = async (req, res, next) => {
   const {
     date,
     confNum,
-    RTC,
+    rtc,
     unitPrice,
     numNights,
     upgradedTo,
-    revenue,
-    commission,
     colleague,
     remark
   } = req.body;
 
   const createdPost = new Post({
-    date: date,
+    date,
     confNum,
-    RTC,
+    rtc,
     unitPrice,
     numNights,
     upgradedTo,
-    revenue,
-    commission,
+    revenue: unitPrice * numNights,
+    commission: (0.05 * unitPrice * numNights).toFixed(2),
     colleague,
     remark
   });
@@ -75,7 +72,7 @@ const createPost = async (req, res, next) => {
   } catch (err) {
     const error = new Error('Something went wrong, post could not be added!');
     error.code = 500;
-    return next(error);
+    return next(err);
   }
 
   res.json({ createdPost: createdPost.toObject({ getters: true }) });
@@ -165,8 +162,20 @@ const deletePost = async (req, res, next) => {
   res.json({ message: 'Successfully deleted!' });
 };
 
+const getAllColleagues = async (req, res, next) => {
+  posts = await Post.find();
+
+  const colleagueList = [...new Set(posts.map(p => p.colleague))];
+  res.json({
+    colleagueList: colleagueList.map(colleague =>
+      colleague.toObject({ getters: true })
+    )
+  });
+};
+
 exports.getPostById = getPostById;
 exports.getAllPosts = getAllPosts;
 exports.createPost = createPost;
 exports.editPost = editPost;
 exports.deletePost = deletePost;
+exports.getAllColleagues = getAllColleagues;

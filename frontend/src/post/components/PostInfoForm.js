@@ -164,16 +164,16 @@ const PostInfoForm = props => {
               </TextField>
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            // fullWidth
-            style={{ width: '50%' }}
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Submit
-          </Button>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     </Container>

@@ -6,7 +6,6 @@ const addPostInfo = async (req, res, next) => {
     const error = new Error('Data is missing');
     return next(error);
   }
-  console.log('req: ', req);
 
   const {
     arrival,
@@ -16,53 +15,26 @@ const addPostInfo = async (req, res, next) => {
     totalRoom,
     totalSoldRoom
   } = req.body;
-  const postInfoList = await PostInfo.find();
-  let postInfoInDatabase;
 
-  if (postInfoList) {
-    postInfoInDatabase = postInfoList.find(p => p.month === month);
+  const postInfo = new PostInfo({
+    arrival,
+    target,
+    achieve,
+    month,
+    totalRoom,
+    totalSoldRoom
+  });
+
+  try {
+    await postInfo.save();
+  } catch (err) {
+    const error = new Error(
+      'Something went wrong, postinfo could not be added!'
+    );
+    error.code = 500;
+    return next(err);
   }
-
-  if (postInfoInDatabase) {
-    postInfoInDatabase.arrival = arrival;
-    postInfoInDatabase.target = target;
-    postInfoInDatabase.achieve = achieve;
-    postInfoInDatabase.month = month;
-    postInfoInDatabase.totalRoom = totalRoom;
-    postInfoInDatabase.totalSoldRoom = totalSoldRoom;
-
-    try {
-      await postInfoInDatabase.save();
-    } catch (err) {
-      const error = new Error(
-        'Something went wrong, postinfo could not be updated!'
-      );
-      error.code = 500;
-      return next(error);
-    }
-
-    res.json({ postInfo: postInfoInDatabase });
-  } else {
-    const postInfo = new PostInfo({
-      arrival,
-      target,
-      achieve,
-      month,
-      totalRoom,
-      totalSoldRoom
-    });
-
-    try {
-      await postInfo.save();
-    } catch (err) {
-      const error = new Error(
-        'Something went wrong, postinfo could not be added!'
-      );
-      error.code = 500;
-      return next(error);
-    }
-    res.json({ postInfo: postInfo });
-  }
+  res.json({ postInfo: postInfo.toObject({ getters: true }) });
 };
 
 getPostInfo = async (req, res, next) => {
@@ -86,5 +58,114 @@ getPostInfo = async (req, res, next) => {
   res.json({ postInfo: postInfo });
 };
 
+getPostInfoList = async (req, res, next) => {
+  let postInfoList;
+
+  try {
+    postInfoList = await PostInfo.find();
+  } catch (err) {
+    const error = new Error(
+      'Something went wrong. PostInfo List could not be found.'
+    );
+    error.code = 500;
+    return next(error);
+  }
+  res.json({
+    postInfoList: postInfoList.map(postInfo =>
+      postInfo.toObject({ getters: true })
+    )
+  });
+};
+
+updatePostInfo = async (req, res, next) => {
+  if (!req.body) {
+    const error = new Error('Data is missing');
+    return next(error);
+  }
+
+  const {
+    arrival,
+    target,
+    achieve,
+    month,
+    totalRoom,
+    totalSoldRoom
+  } = req.body;
+
+  let postInfo;
+
+  try {
+    postInfo = await PostInfo.findById(req.body.id);
+  } catch (err) {
+    const error = new Error(
+      'Something went wrong, postInfo could not be found!'
+    );
+    error.code = 500;
+    return next(error);
+  }
+
+  if (!postInfo) {
+    const error = new Error('postInfo not found.');
+    error.code = 404;
+    return next(error);
+  } else {
+    postInfo.arrival = arrival;
+    postInfo.target = target;
+    postInfo.achieve = achieve;
+    postInfo.month = month;
+    postInfo.totalRoom = totalRoom;
+    postInfo.totalSoldRoom = totalSoldRoom;
+  }
+
+  try {
+    await postInfo.save();
+  } catch (err) {
+    const error = new Error(
+      'Something went wrong, postInfo could not be updated!'
+    );
+    error.code = 500;
+    return next(error);
+  }
+
+  res.json({ postInfo: postInfo.toObject({ getters: true }) });
+};
+
+const deletePostInfo = async (req, res, next) => {
+  const postInfoId = req.params.pid;
+
+  let postInfo;
+
+  try {
+    postInfo = await PostInfo.findById(postInfoId);
+  } catch (err) {
+    const error = new Error(
+      'Something went wrong, PostInfo could not be found!'
+    );
+    error.code = 500;
+    return next(error);
+  }
+
+  if (!postInfo) {
+    const error = new Error('PostInfo does not exist');
+    error.code = 404;
+    return next(error);
+  } else {
+    try {
+      await postInfo.remove();
+    } catch (err) {
+      const error = new Error(
+        'Something went wrong, user could not be deleted!'
+      );
+      error.code = 500;
+      return next(error);
+    }
+  }
+
+  res.json({ message: 'Successfully deleted!' });
+};
+
 exports.addPostInfo = addPostInfo;
 exports.getPostInfo = getPostInfo;
+exports.getPostInfoList = getPostInfoList;
+exports.updatePostInfo = updatePostInfo;
+exports.deletePostInfo = deletePostInfo;

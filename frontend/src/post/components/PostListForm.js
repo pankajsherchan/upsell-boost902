@@ -101,7 +101,6 @@ const PostListForm = props => {
                   label="RTC"
                   name="rtc"
                   autoComplete="lname"
-                  type="number"
                   value={props.formik.values.rtc}
                   onChange={props.formik.handleChange}
                 />
@@ -192,7 +191,7 @@ const PostListForm = props => {
                 />
               </Grid>
             </Grid>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
                 variant="contained"

@@ -1,3 +1,4 @@
+import { Divider } from '@material-ui/core';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import moment from 'moment';
@@ -30,7 +31,7 @@ const PostList = props => {
       id: 1,
       date: '05/10/2015',
       confNum: 5,
-      RTC: 5,
+      rtc: 5,
       upgradedTo: 'ramro',
       unitPrice: 20,
       numNights: 10,
@@ -45,10 +46,10 @@ const PostList = props => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts`);
 
       res.data.posts.map(p => {
-        p.date = moment(p.date).format('DD/MM/YYYY');
+        p.date = moment(p.date).format('MM/DD/YYYY');
         return p;
       });
 
@@ -60,21 +61,6 @@ const PostList = props => {
 
   const submitPost = async data => {
     if (isEditMode) {
-      const updatedItemIndex = postList.findIndex(p => p.id === data.id);
-
-      const newList = [...postList];
-      newList[updatedItemIndex] = {
-        ...data,
-        revenue: data.numNights * data.unitPrice,
-        commission: (
-          COMMISSION_AMOUNT *
-          data.numNights *
-          data.unitPrice
-        ).toFixed(2)
-      };
-
-      setPostList(newList);
-
       try {
         const config = {
           headers: {
@@ -83,14 +69,28 @@ const PostList = props => {
         };
         await axios
           .put(`${process.env.REACT_APP_API_URL}/Posts`, data, config)
-          .then(res => {});
+          .then(res => {
+            const updatedItemIndex = postList.findIndex(p => p.id === data.id);
+
+            const newList = [...postList];
+            newList[updatedItemIndex] = {
+              ...data,
+              date: formatDate(data.date),
+              revenue: data.numNights * data.unitPrice,
+              commission: (
+                COMMISSION_AMOUNT *
+                data.numNights *
+                data.unitPrice
+              ).toFixed(2)
+            };
+            setPostList(newList);
+          });
       } catch (error) {}
     } else {
       try {
-        // ! needs to be removed
-        // calculate the commission and revenue
         const newData = {
           ...data,
+          date: formatDate(data.date),
           revenue: data.numNights * data.unitPrice,
           commission: (
             COMMISSION_AMOUNT *
@@ -98,22 +98,22 @@ const PostList = props => {
             data.unitPrice
           ).toFixed(2)
         };
-        console.log('newData: ', newData);
-        setPostList([...postList, newData]);
 
-        const addedData = JSON.stringify({
-          ...data,
-          date: moment(data.date).format('DD/MM/YYYY')
-        });
         const config = {
           headers: {
             'Content-Type': 'application/json'
           }
         };
         await axios
-          .post(`${process.env.REACT_APP_API_URL}/Posts`, addedData, config)
+          .post(`${process.env.REACT_APP_API_URL}/Posts`, newData, config)
           .then(res => {
-            setPostList([...postList, res.data.createdPost]);
+            setPostList([
+              ...postList,
+              {
+                ...res.data.createdPost,
+                date: formatDate(res.data.createdPost.date)
+              }
+            ]);
           });
       } catch (error) {
         console.log(error);
@@ -121,10 +121,15 @@ const PostList = props => {
     }
   };
 
+  const formatDate = date => {
+    return moment(date).format('MM/DD/YYYY');
+  };
+
   const deletePost = async (post, index) => {
-    // ! TODO: this needs to be removed
-    postList.splice(index, 1);
-    setPostList([...postList]);
+    console.log('post: ', post);
+    // // ! TODO: this needs to be removed
+    // postList.splice(index, 1);
+    // setPostList([...postList]);
 
     try {
       const config = {
@@ -144,12 +149,19 @@ const PostList = props => {
 
   const updatePost = async (updatedPost, index) => {
     setEditMode(true);
-    formik.setValues(updatedPost);
+    const formattedPost = {
+      ...updatedPost,
+      date: moment(updatedPost.date).format('YYYY-MM-DD') // the date has to be this format to work in the edit mode
+    };
+    formik.setValues(formattedPost);
   };
 
   return (
     <div>
       <PostListForm formik={formik} />
+      <Divider />
+      <Divider />
+
       <PostListTable
         postList={postList}
         onDelete={deletePost}

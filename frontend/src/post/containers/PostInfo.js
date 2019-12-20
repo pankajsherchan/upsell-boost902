@@ -1,3 +1,4 @@
+import { Divider } from '@material-ui/core';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -5,19 +6,6 @@ import PostInfoForm from '../components/PostInfoForm';
 import PostInfoTable from '../components/PostInfoTable';
 
 const PostInfo = props => {
-  const [postInfo, setPostInfo] = useState({});
-
-  function createData(
-    arrival,
-    target,
-    totalRoom,
-    totalSoldRoom,
-    achieve,
-    month
-  ) {
-    return { arrival, target, totalRoom, totalSoldRoom, achieve, month };
-  }
-
   const formik = useFormik({
     initialValues: {
       arrival: '',
@@ -32,34 +20,20 @@ const PostInfo = props => {
     }
   });
 
-  const intialRows = [
-    createData(11, 159, 6.0, 24, 4.0, 'January'),
-    createData(22, 237, 9.0, 37, 4.3, 'March'),
-    createData(33, 262, 16.0, 24, 6.0, 'December'),
-    createData(44, 305, 3.7, 67, 4.3, 'April'),
-    createData(55, 356, 16.0, 49, 3.9, 'May')
-  ];
-  const [postInfoList, setPostInfoList] = useState(intialRows);
+  const [postInfoList, setPostInfoList] = useState([]);
   const [isEditMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    const sendPostInfoRequest = async () => {
+    const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
-      formik.setValues(res.data.postInfo);
+      setPostInfoList(res.data.postInfoList);
     };
 
-    sendPostInfoRequest();
+    sendRequest();
   }, []);
 
   const submitPostInfo = async data => {
     if (isEditMode) {
-      const updatedItemIndex = postInfoList.findIndex(p => p.id === data.id);
-
-      const newList = [...postInfoList];
-      newList[updatedItemIndex] = data;
-
-      setPostInfoList(newList);
-
       try {
         const config = {
           headers: {
@@ -67,25 +41,39 @@ const PostInfo = props => {
           }
         };
         await axios
-          .put(`${process.env.REACT_APP_API_URL}/PostInfo`, data, config)
-          .then(res => {});
+          .put(`${process.env.REACT_APP_API_URL}/post-info`, data, config)
+          .then(res => {
+            const updatedItemIndex = postInfoList.findIndex(
+              p => p.id === data.id
+            );
+
+            const newList = [...postInfoList];
+            newList[updatedItemIndex] = data;
+
+            setPostInfoList(newList);
+          });
       } catch (error) {}
     } else {
-      try {
-        setPostInfoList([...postInfoList, data]);
+      // show alert when adding postinfo for existing month
+      const postInfoOfMonth = postInfoList.find(p => p.month === data.month);
 
-        const addedData = JSON.stringify({
-          data
-        });
+      if (postInfoOfMonth) {
+        return alert(
+          'Post Info for this month already exists. Please edit the existing data'
+        );
+      }
+
+      try {
         const config = {
           headers: {
             'Content-Type': 'application/json'
           }
         };
         await axios
-          .post(`${process.env.REACT_APP_API_URL}/Posts`, addedData, config)
+          .post(`${process.env.REACT_APP_API_URL}/post-info`, data, config)
           .then(res => {
-            setPostInfoList([...postInfoList, res.data.createdPost]);
+            console.log('res: ', res);
+            setPostInfoList([...postInfoList, res.data.postInfo]);
           });
       } catch (error) {
         console.log(error);
@@ -94,10 +82,6 @@ const PostInfo = props => {
   };
 
   const deletePostInfo = async (data, index) => {
-    // ! TODO: this needs to be removed
-    postInfoList.splice(index, 1);
-    setPostInfoList([...postInfoList]);
-
     try {
       const config = {
         headers: {
@@ -106,7 +90,7 @@ const PostInfo = props => {
       };
 
       await axios
-        .delete(`${process.env.REACT_APP_API_URL}/PostInfo/${data.id}`, config)
+        .delete(`${process.env.REACT_APP_API_URL}/post-info/${data.id}`, config)
         .then(res => {
           postInfoList.splice(index, 1);
           setPostInfoList([...postInfoList]);
@@ -122,6 +106,8 @@ const PostInfo = props => {
   return (
     <div>
       <PostInfoForm formik={formik} />
+      <Divider />
+      <Divider />
       <PostInfoTable
         postInfoList={postInfoList}
         onDelete={deletePostInfo}

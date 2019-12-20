@@ -71,6 +71,7 @@ const submitHandler = async (setIsLoggedIn, setToDashboard, setUser, event) => {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/login`, dataJson, config)
       .then(res => {
+        console.log('res: ', res);
         const token = 'Bearer ' + res.data.token;
         localStorage.setItem('token', token); //Save token in browser
         setIsLoggedIn(true);

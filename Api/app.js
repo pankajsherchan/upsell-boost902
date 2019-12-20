@@ -29,7 +29,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/revenue', revenueRoutes);
 app.use('/api/performance', performanceRoutes);
 app.use('/api/comparison', comparisonRoutes);
-app.use('/', loginRoutes);
+app.use('/api', loginRoutes);
 
 app.use((error, req, res, next) => {
   if (res.headerSent) {
