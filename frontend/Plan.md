@@ -1,15 +1,3 @@
-## Dashboard
-
-1. Forecast Table
-
-   Morning - 25% of the arrivals value in Post Info Page
-
-   Afternoon - 60% of the arrivals value in Post Info Page
-
-   Night - 10% of the arrivals value in Post Info Page
-
-2. Add Todays date on the top of the page
-
 ## POST
 
 - Connect post to the backend apis
