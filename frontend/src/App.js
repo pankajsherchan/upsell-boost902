@@ -20,7 +20,6 @@ import MainNavigation from './shared/components/navigation/MainNavigation';
 import ColorPalette from './shared/utils/ColorPalette';
 import Users from './users/Users';
 
-console.log('AuthContext: ', AuthContext);
 const theme = createMuiTheme({
   palette: {
     primary: { main: blue[900] },

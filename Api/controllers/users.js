@@ -51,9 +51,8 @@ const signUp = async (req, res, next) => {
     return next(error);
   }
   if (existingUser) {
-    const error = new Error('User already exists, please login instead');
-    error.code = 422;
-    return next(error);
+    const message = 'User already exists, please login instead';
+    return res.json({ message });
   }
 
   // sign up roles are employee by default

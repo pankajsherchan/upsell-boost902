@@ -1,5 +1,5 @@
 import { Button, Icon } from '@material-ui/core';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import AuthContext from '../../../context/auth-context';
 import './NavLinks.css';
@@ -7,9 +7,6 @@ import './NavLinks.css';
 const NavLinks = props => {
   const isLoggedIn = useContext(AuthContext).isLoggedIn;
   const setIsLoggedIn = useContext(AuthContext).setIsLoggedIn;
-
-  console.log('localStorage.getItem: ', localStorage.getItem('token'));
-  console.log('isLoggedIn: ', isLoggedIn);
 
   // this is when user refreshs
   if (localStorage.getItem('token')) {
@@ -21,6 +18,13 @@ const NavLinks = props => {
     setIsLoggedIn(false);
     props.history.push('/signup');
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      props.history.push('/');
+    }
+  }, [isLoggedIn]);
+
   return (
     <div className="nav-links">
       {isLoggedIn ? (

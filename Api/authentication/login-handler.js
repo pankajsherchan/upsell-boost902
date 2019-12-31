@@ -34,11 +34,9 @@ const login = async (req, res, next) => {
         token: token
       };
     } else {
-      const error = new Error(
-        'Authentication failed! Email or password is not correct.'
-      );
-      error.code = 400;
-      return next(error);
+      const message =
+        'Authentication failed! Email or password is not correct.';
+      return res.json({ message });
     }
   }
 

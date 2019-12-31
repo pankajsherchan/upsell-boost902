@@ -12,9 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
+import { useFormik } from 'formik';
 import React, { useContext, useState } from 'react';
-import { Redirect } from 'react-router';
 import AuthContext from '../../context/auth-context';
+import SimpleDialog from '../../shared/components/dialog/SimpleDialog';
 
 function Copyright() {
   return (
@@ -54,50 +55,94 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const submitHandler = async (setIsLoggedIn, setToDashboard, setUser, event) => {
-  event.preventDefault();
-
-  try {
-    const data = new FormData(event.target);
-    let dataJson = {};
-    for (const [key, value] of data.entries()) {
-      dataJson[key] = value;
-    }
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/login`, dataJson, config)
-      .then(res => {
-        console.log('res: ', res);
-        const token = 'Bearer ' + res.data.token;
-        localStorage.setItem('token', token); //Save token in browser
-        setIsLoggedIn(true);
-        setToDashboard(true);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const SignIn = () => {
   const classes = useStyles();
+
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
+  const [dialogTitle, setDialogTitle] = useState('');
+
+  const validate = values => {
+    const errors = {};
+
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = 'Invalid email address';
+    }
+
+    if (!values.password) {
+      errors.password = 'Required';
+    } else if (values.password.length < 6) {
+      errors.password = 'Password must be at least 6 character long';
+    }
+
+    return errors;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validate,
+    onSubmit: async user => {
+      login(user);
+    }
+  });
+
+  const hideDialogBox = () => {
+    setShowDialog(false);
+  };
+
+  const showDialogBox = (title, message) => {
+    setShowDialog(true);
+    setDialogMessage(message);
+    setDialogTitle(title);
+  };
 
   const context = useContext(AuthContext);
   const [toDashboard, setToDashboard] = useState(false);
 
-  if (toDashboard === true) {
-    return <Redirect to="/dashboard" />;
-  }
+  const login = async user => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/login`, user, config)
+        .then(res => {
+          if (res.data.message) {
+            return showDialogBox('Warning', res.data.message);
+          }
+          const token = 'Bearer ' + res.data.result.token;
+          localStorage.setItem('token', token);
+          context.setIsLoggedIn(true);
+        })
+        .catch(error => {});
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <div>
+        {showDialog ? (
+          <SimpleDialog
+            open={showDialog}
+            message={dialogMessage}
+            title={dialogTitle}
+            hide={hideDialogBox}
+          ></SimpleDialog>
+        ) : null}
+      </div>
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -106,12 +151,7 @@ const SignIn = () => {
           Sign in
         </Typography>
         <form
-          onSubmit={submitHandler.bind(
-            this,
-            context.setIsLoggedIn,
-            setToDashboard,
-            context.setUser
-          )}
+          onSubmit={formik.handleSubmit}
           className={classes.form}
           noValidate
         >
@@ -125,7 +165,14 @@ const SignIn = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            value={formik.values.email}
+            onChange={formik.handleChange}
           />
+
+          {formik.errors.email ? (
+            <div className="form-error">{formik.errors.email}</div>
+          ) : null}
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -136,7 +183,14 @@ const SignIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
           />
+
+          {formik.errors.password ? (
+            <div className="form-error">{formik.errors.password}</div>
+          ) : null}
+
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
