@@ -6,19 +6,16 @@ const router = express.Router();
 
 router.use(express.json());
 
-//Get All Users
-router.get('/', usersController.getAllUsers);
+router.get('/', usersController.getUsers);
 
-//Create User Or SignUp
-router.post('/signUp', usersController.createUser);
+router.post('/signUp', usersController.signUp);
 
-//Get User by id
+router.post('/', usersController.addUser);
+
 router.get('/:uid', usersController.getUserById);
 
-//Edit User Profile
 router.put('/', usersController.editUser);
 
-//DELETE user
 router.delete('/:uid', usersController.deleteUser);
 
 module.exports = {

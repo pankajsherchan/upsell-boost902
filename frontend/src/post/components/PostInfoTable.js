@@ -36,7 +36,7 @@ const PostInfoTable = props => {
         </TableHead>
         <TableBody>
           {props.postInfoList.map((row, index) => (
-            <TableRow key={row.month}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.arrival}
               </TableCell>

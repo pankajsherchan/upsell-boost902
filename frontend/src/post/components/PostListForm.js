@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React from 'react';
+import './PostListForm.css';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -63,6 +64,7 @@ const PostListForm = props => {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
+                  required
                   id="date"
                   variant="outlined"
                   label="Date"
@@ -76,6 +78,10 @@ const PostListForm = props => {
                   value={props.formik.values.date}
                   onChange={props.formik.handleChange}
                 />
+
+                {props.formik.errors.date ? (
+                  <div className="form-error">{props.formik.errors.date}</div>
+                ) : null}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -90,6 +96,11 @@ const PostListForm = props => {
                   value={props.formik.values.confNum}
                   onChange={props.formik.handleChange}
                 />
+                {props.formik.errors.confNum ? (
+                  <div className="form-error">
+                    {props.formik.errors.confNum}
+                  </div>
+                ) : null}
               </Grid>
 
               <Grid item xs={12} sm={4}>
@@ -104,6 +115,9 @@ const PostListForm = props => {
                   value={props.formik.values.rtc}
                   onChange={props.formik.handleChange}
                 />
+                {props.formik.errors.rtc ? (
+                  <div className="form-error">{props.formik.errors.rtc}</div>
+                ) : null}
               </Grid>
 
               <Grid item xs={12} sm={4}>
@@ -119,6 +133,11 @@ const PostListForm = props => {
                   value={props.formik.values.upgradedTo}
                   onChange={props.formik.handleChange}
                 />
+                {props.formik.errors.upgradedTo ? (
+                  <div className="form-error">
+                    {props.formik.errors.upgradedTo}
+                  </div>
+                ) : null}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -133,6 +152,11 @@ const PostListForm = props => {
                   value={props.formik.values.unitPrice}
                   onChange={props.formik.handleChange}
                 />
+                {props.formik.errors.unitPrice ? (
+                  <div className="form-error">
+                    {props.formik.errors.unitPrice}
+                  </div>
+                ) : null}
               </Grid>
 
               <Grid item xs={12} sm={4}>
@@ -148,6 +172,11 @@ const PostListForm = props => {
                   value={props.formik.values.numNights}
                   onChange={props.formik.handleChange}
                 />
+                {props.formik.errors.numNights ? (
+                  <div className="form-error">
+                    {props.formik.errors.numNights}
+                  </div>
+                ) : null}
               </Grid>
 
               <Grid item xs={12} sm={4}>
@@ -175,12 +204,16 @@ const PostListForm = props => {
                   <MenuItem value={'Person 11'}>Person 11</MenuItem>
                   <MenuItem value={'Person 12'}>Person 12</MenuItem>
                 </TextField>
+                {props.formik.errors.colleague ? (
+                  <div className="form-error">
+                    {props.formik.errors.colleague}
+                  </div>
+                ) : null}
               </Grid>
 
               <Grid item xs={12} sm={4}>
                 <TextField
                   variant="outlined"
-                  required
                   fullWidth
                   id="achieved"
                   label="Remark"

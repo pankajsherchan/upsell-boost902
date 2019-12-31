@@ -7,6 +7,34 @@ import PostInfoForm from '../components/PostInfoForm';
 import PostInfoTable from '../components/PostInfoTable';
 
 const PostInfo = props => {
+  const validate = values => {
+    const errors = {};
+    if (!values.arrival) {
+      errors.arrival = 'Required';
+    }
+
+    if (!values.target) {
+      errors.target = 'Required';
+    }
+    if (!values.achieve) {
+      errors.achieve = 'Required';
+    }
+
+    if (!values.totalRoom) {
+      errors.totalRoom = 'Required';
+    }
+
+    if (!values.totalSoldRoom) {
+      errors.totalSoldRoom = 'Required';
+    }
+
+    if (!values.date) {
+      errors.date = 'Required';
+    }
+
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: {
       arrival: '',

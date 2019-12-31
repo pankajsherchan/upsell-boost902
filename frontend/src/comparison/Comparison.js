@@ -13,8 +13,8 @@ import CustomPaper from '../shared/components/layouts/content/CustomPaper';
 import Loading from '../shared/components/loading/Loading';
 import PageTitle from '../shared/components/page-title/PageTitle';
 import CheckboxList from './components/CheckboxList';
-const numeral = require('numeral');
-numeral.defaultFormat('0,000');
+// const numeral = require('numeral');
+// numeral.defaultFormat('0,000');
 
 const useStyles = makeStyles(theme => ({
   root: {

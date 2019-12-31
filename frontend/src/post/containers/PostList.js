@@ -8,6 +8,37 @@ import PostListTable from '../components/PostListTable';
 
 const COMMISSION_AMOUNT = 0.05;
 
+const validate = values => {
+  const errors = {};
+  if (!values.date) {
+    errors.date = 'Required';
+  }
+
+  if (!values.confNum) {
+    errors.confNum = 'Required';
+  }
+  if (!values.rtc) {
+    errors.rtc = 'Required';
+  }
+
+  if (!values.upgradedTo) {
+    errors.upgradedTo = 'Required';
+  }
+
+  if (!values.unitPrice) {
+    errors.unitPrice = 'Required';
+  }
+
+  if (!values.numNights) {
+    errors.numNights = 'Required';
+  }
+  if (!values.colleague) {
+    errors.colleague = 'Required';
+  }
+
+  return errors;
+};
+
 const PostList = props => {
   const formik = useFormik({
     initialValues: {
@@ -20,7 +51,7 @@ const PostList = props => {
       colleague: '',
       remark: ''
     },
-
+    validate,
     onSubmit: async post => {
       submitPost(post);
     }
