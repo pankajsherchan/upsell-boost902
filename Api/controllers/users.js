@@ -90,9 +90,8 @@ const addUser = async (req, res, next) => {
     return next(error);
   }
   if (existingUser) {
-    const error = new Error('User already exists, please login instead');
-    error.code = 422;
-    return next(error);
+    const message = 'User already exists, please login instead';
+    return res.json({ message });
   }
 
   // TODO: generate the password
@@ -139,7 +138,6 @@ const editUser = async (req, res, next) => {
     user.firstName = firstName;
     user.lastName = lastName;
     user.password = password;
-    user.phone = phone;
     user.role = role;
 
     try {

@@ -1,5 +1,4 @@
 import Dialog from '@material-ui/core/Dialog';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -54,18 +53,7 @@ const SimpleDialog = props => {
     }
   }))(MuiDialogContent);
 
-  const DialogActions = withStyles(theme => ({
-    root: {
-      margin: 0,
-      padding: theme.spacing(1)
-    }
-  }))(MuiDialogActions);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
+  const handleClose = props => {
     setOpen(false);
   };
 
@@ -77,25 +65,18 @@ const SimpleDialog = props => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        {/* <DialogTitle id="responsive-dialog-title">{props.title}</DialogTitle> */}
-
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={() => {
+            props.hide();
+          }}
+        >
           {props.title}
         </DialogTitle>
 
         <DialogContent dividers style={{ width: '350px' }}>
           <DialogContentText>{props.message}</DialogContentText>
         </DialogContent>
-        {/* <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleClose}
-            autoFocus
-          >
-            Ok
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

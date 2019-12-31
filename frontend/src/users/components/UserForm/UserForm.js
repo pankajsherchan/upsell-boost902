@@ -7,8 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
-import React, { Fragment, useState } from 'react';
-import SimpleDialog from '../../../shared/components/dialog/SimpleDialog';
+import React, { Fragment } from 'react';
 import './UserForm.css';
 
 const useStyles = makeStyles(theme => ({
@@ -41,28 +40,8 @@ const useStyles = makeStyles(theme => ({
 const UserForm = props => {
   const classes = useStyles();
 
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState('');
-  const [dialogTitle, setDialogTitle] = useState('');
-
-  const signup = () => {
-    setShowDialog(true);
-    setDialogMessage('User Add Successfully');
-    setDialogTitle('Success');
-  };
-
   return (
     <Fragment>
-      <div>
-        {showDialog ? (
-          <SimpleDialog
-            open={showDialog}
-            message={dialogMessage}
-            title={dialogTitle}
-          ></SimpleDialog>
-        ) : null}
-      </div>
-
       <Container component="main">
         <CssBaseline />
         <div className={classes.paper}>
