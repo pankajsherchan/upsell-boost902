@@ -7,6 +7,7 @@ import YAxis from 'recharts/lib/cartesian/YAxis';
 import Legend from 'recharts/lib/component/Legend';
 import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
 import Tooltip from 'recharts/lib/component/Tooltip';
+
 const useStyles = makeStyles(theme => ({
   loadingMessage: {
     position: 'absolute',
@@ -25,7 +26,7 @@ const ResponsiveBarChart = props => {
         data={props.data}
         margin={{ top: 50, right: 30, left: 30, bottom: 5 }}
       >
-        <XAxis dataKey="name" />
+        <XAxis dataKey="month" />
         <YAxis tickSize={10} minTickGap={10} />
         <Tooltip />
         <Legend />
@@ -40,9 +41,6 @@ const ResponsiveBarChart = props => {
         {props.data[0].scored ? (
           <Bar dataKey="scored" fill="orange"></Bar>
         ) : null}
-        {/* {props.data[0].expected ? (
-          <Bar dataKey="expected" fill="#01579b" />
-        ) : null} */}
 
         {props.data[0].adr ? <Bar dataKey="adr" fill="#303f9f"></Bar> : null}
         {props.data[0].revpar ? <Bar dataKey="revpar" fill="#01579b" /> : null}

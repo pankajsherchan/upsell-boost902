@@ -54,28 +54,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const handleSubmit = async event => {
-  event.preventDefault();
-  const data = new FormData(event.target);
-  let dataJson = {};
-  for (const [key, value] of data.entries()) {
-    dataJson[key] = value;
-  }
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  await axios
-    .post(`${process.env.REACT_APP_API_URL}/users/signUp`, dataJson, config)
-    .then(res => {
-      alert('Account Registration Successful!');
-    })
-    .catch(error => {
-      console.log(error);
-    });
-};
-
 const SignUp = () => {
   const classes = useStyles();
 

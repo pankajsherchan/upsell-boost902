@@ -12,9 +12,9 @@ import ContentLayout from '../shared/components/layouts/content/ContentLayout';
 import CustomPaper from '../shared/components/layouts/content/CustomPaper';
 import Loading from '../shared/components/loading/Loading';
 import PageTitle from '../shared/components/page-title/PageTitle';
+import { getCurrentYear } from '../shared/utils/Date';
 import CheckboxList from './components/CheckboxList';
-// const numeral = require('numeral');
-// numeral.defaultFormat('0,000');
+import RadioButton from './components/RadioButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,99 +40,120 @@ const Comparison = () => {
   const DATA = [
     {
       id: 1,
-      name: 'January',
+      month: 'January',
       scored: 4000,
       expected: 2400,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 2,
-      name: 'February',
+      month: 'February',
       scored: 3000,
       expected: 1398,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 3,
-      name: 'March',
+      month: 'March',
       scored: 2000,
       expected: 1800,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 4,
-      name: 'April',
+      month: 'April',
       scored: 2780,
       expected: 3908,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 5,
-      name: 'May',
+      month: 'May',
       scored: 1890,
       expected: 4800,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 6,
-      name: 'June',
+      month: 'June',
       scored: 2390,
       expected: 3800,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 7,
-      name: 'July',
+      month: 'July',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 8,
-      name: 'August',
+      month: 'August',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 9,
-      name: 'September',
+      month: 'September',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 10,
-      name: 'October',
+      month: 'October',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 11,
-      name: 'November',
+      month: 'November',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
     },
     {
       id: 12,
-      name: 'December',
+      month: 'December',
       scored: 3490,
       expected: 4300,
       adr: 1110,
-      revpar: 2220
+      revpar: 2220,
+      year: '2019'
+    },
+    {
+      id: 12,
+      month: 'January',
+      scored: 3490,
+      expected: 4300,
+      adr: 1110,
+      revpar: 2220,
+      year: '2020'
     }
   ];
 
@@ -151,15 +172,19 @@ const Comparison = () => {
     'November',
     'December'
   ];
+  const years = ['2019', '2020'];
 
   const comparisonValues = ['Expected', 'Scored', 'ADR', 'RevPAR'];
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(DATA);
-  const [selectedMonths, setMonths] = React.useState(months);
-  const [selectedComparisonItems, setComparisonItems] = React.useState(
+  const [data, setData] = useState(
+    DATA.filter(d => d.year === getCurrentYear())
+  );
+  const [selectedMonths, setMonths] = useState(months);
+  const [selectedComparisonItems, setComparisonItems] = useState(
     comparisonValues
   );
+  const [selectedYear, setYear] = useState(getCurrentYear() + '');
 
   const onComparisonItemSelected = value => () => {
     const currentIndex = selectedComparisonItems.indexOf(value);
@@ -231,7 +256,7 @@ const Comparison = () => {
       let newData = [...data];
 
       newChecked.push(value);
-      newData.push(DUPLICATE_DATA.filter(d => d.name === value)[0]);
+      newData.push(DUPLICATE_DATA.filter(d => d.month === value)[0]);
       newData = newData.sort(function(a, b) {
         return a.id - b.id;
       });
@@ -239,7 +264,7 @@ const Comparison = () => {
     } else {
       newChecked.splice(currentIndex, 1);
       let newData = [];
-      newData = data.filter(d => d.name !== value);
+      newData = data.filter(d => d.month !== value);
       newData.sort(function(a, b) {
         return a.id - b.id;
       });
@@ -248,13 +273,21 @@ const Comparison = () => {
     setMonths(newChecked);
   };
 
+  const onYearSelected = value => () => {
+    const filteredData = DUPLICATE_DATA.filter(d => d.year === value + '');
+    setData([...filteredData]);
+    setYear(value + '');
+    console.log('filteredData: ', filteredData);
+    setMonths(filteredData.map(d => d.month));
+  };
+
   return (
     <Fragment>
       <CssBaseline />
       <ContentLayout>
         <PageTitle title={title} xs={12}></PageTitle>
 
-        <CustomPaper title="SelectValue" xs={6}>
+        <CustomPaper title="SelectValue" xs={3}>
           <CheckboxList
             data={comparisonValues}
             setSelectedList={onComparisonItemSelected}
@@ -262,11 +295,19 @@ const Comparison = () => {
           />
         </CustomPaper>
 
-        <CustomPaper title="SelectMonths" xs={6}>
+        <CustomPaper title="SelectMonths" xs={3}>
           <CheckboxList
             data={months}
             setSelectedList={onMonthSelected}
             selectedList={selectedMonths}
+          />
+        </CustomPaper>
+
+        <CustomPaper title="SelectYear" xs={3}>
+          <RadioButton
+            data={years}
+            setSelectedValue={onYearSelected}
+            selectedValue={selectedYear}
           />
         </CustomPaper>
 
