@@ -79,7 +79,12 @@ const Users = props => {
         await axios
           .put(`${process.env.REACT_APP_API_URL}/users`, data, config)
           .then(res => {
-            setUsers([...users, res.data.user]);
+            const updatedItemIndex = users.findIndex(u => u.id === data.id);
+
+            const newList = [...users];
+            newList[updatedItemIndex] = data;
+
+            setUsers(newList);
             showDialogBox('Success', 'User updated successfully');
             setEditMode(false);
             setValidation(false);
