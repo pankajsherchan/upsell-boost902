@@ -55,6 +55,7 @@ const Dashboard = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
+      console.log('res: ', res);
 
       res.data.postInfoList.map(data => {
         data.date = dateHelper.formatDate(data.date, 'MM/DD/YYYY');
@@ -62,7 +63,7 @@ const Dashboard = () => {
       });
 
       const postInfo = res.data.postInfoList.find(
-        p => p.date === dateHelper.formatDate(moment(), 'MM/DD/YYYY')
+        p => p.date === dateHelper.getCurrentDate()
       );
 
       if (postInfo) {

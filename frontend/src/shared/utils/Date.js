@@ -22,7 +22,7 @@ export const formatDate = (date, formatType) => {
 };
 
 export const getCurrentDate = () => {
-  return moment(moment(), 'YYYY/MM/DD');
+  return moment.parseZone().format('MM/DD/YYYY');
 };
 
 export const getCurrentMonth = () => {

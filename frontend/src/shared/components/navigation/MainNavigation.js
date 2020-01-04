@@ -47,7 +47,7 @@ const MainNavigation = props => {
         </SideDrawer>
       )}
       <MainHeader>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <div className="main-navigation__menu-btn">
               <IconButton
