@@ -7,23 +7,12 @@ const addPostInfo = async (req, res, next) => {
     return next(error);
   }
 
-  const {
-    arrival,
-    target,
-    achieve,
-    month,
-    totalRoom,
-    totalSoldRoom,
-    date
-  } = req.body;
+  const { arrival, target, month, totalRoom, totalSoldRoom, date } = req.body;
 
   const postInfo = new PostInfo({
     arrival,
     target,
-    achieve,
-    month,
     totalRoom,
-    totalSoldRoom,
     date
   });
 

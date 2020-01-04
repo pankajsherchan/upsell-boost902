@@ -32,6 +32,11 @@ const Dashboard = () => {
 
   const todaysDate = moment().format('llll');
 
+  const initialPrediction = {
+    achieve: 0,
+    target: 0
+  };
+
   const columnsValue = [
     { title: 'Name', field: 'name' },
     { title: 'Total Revenue', field: 'totalRevenue', type: 'numeric' },
@@ -44,10 +49,18 @@ const Dashboard = () => {
   const [dashboardInfo, setDashboardInfo] = useState({});
   const [postInfo, setPostInfo] = useState({});
 
+  const [prediction, setPrediction] = useState(initialPrediction);
+
+  const [target, setTarget] = useState();
+  const [achieve, setAchieve] = useState();
+
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/dashboard`);
       setDashboardInfo(res.data);
+      setAchieve(
+        res.data.upsellSummary.map(d => d.revenue).reduce((a, b) => a + b, 0)
+      );
     };
     sendRequest();
   }, []);
@@ -55,7 +68,6 @@ const Dashboard = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/post-info`);
-      console.log('res: ', res);
 
       res.data.postInfoList.map(data => {
         data.date = dateHelper.formatDate(data.date, 'MM/DD/YYYY');
@@ -68,9 +80,8 @@ const Dashboard = () => {
 
       if (postInfo) {
         setForecast(getForecast(postInfo.arrival));
+        setTarget(postInfo.target);
       }
-
-      console.log('postInfo: ', postInfo);
 
       setPostInfo(postInfo);
     };
@@ -84,17 +95,24 @@ const Dashboard = () => {
     const forecast = [
       {
         shift: 'Morning',
-        expectedArrival: (EXPECTATION.MORNING_SHIFT / 100) * arrival,
+        expectedArrival: ((EXPECTATION.MORNING_SHIFT / 100) * arrival).toFixed(
+          2
+        ),
         expectedUpsell: EXPECTATION.MORNING_SHIFT
       },
       {
         shift: 'Afternoon',
-        expectedArrival: (EXPECTATION.AFTERNOON_SHIFT / 100) * arrival,
+        expectedArrival: (
+          (EXPECTATION.AFTERNOON_SHIFT / 100) *
+          arrival
+        ).toFixed(2),
         expectedUpsell: EXPECTATION.AFTERNOON_SHIFT
       },
       {
         shift: 'Evening',
-        expectedArrival: (EXPECTATION.EVENING_SHIFT / 100) * arrival,
+        expectedArrival: ((EXPECTATION.EVENING_SHIFT / 100) * arrival).toFixed(
+          2
+        ),
         expectedUpsell: EXPECTATION.EVENING_SHIFT
       }
     ];
@@ -202,10 +220,11 @@ const Dashboard = () => {
             ) : null}
           </Box>
           <Box>
-            {postInfo ? (
+            {target && achieve ? (
               <PredictionGraph
                 title="Target vs Score Graph"
-                data={postInfo}
+                target={target}
+                achieve={achieve}
               ></PredictionGraph>
             ) : null}
           </Box>

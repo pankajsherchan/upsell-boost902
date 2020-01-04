@@ -16,16 +16,9 @@ const PostInfo = props => {
     if (!values.target) {
       errors.target = 'Required';
     }
-    if (!values.achieve) {
-      errors.achieve = 'Required';
-    }
 
     if (!values.totalRoom) {
       errors.totalRoom = 'Required';
-    }
-
-    if (!values.totalSoldRoom) {
-      errors.totalSoldRoom = 'Required';
     }
 
     if (!values.date) {
@@ -39,9 +32,7 @@ const PostInfo = props => {
     initialValues: {
       arrival: '',
       target: '',
-      achieve: '',
       totalRoom: '',
-      totalSoldRoom: '',
       month: '',
       date: ''
     },

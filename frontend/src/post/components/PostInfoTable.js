@@ -27,8 +27,6 @@ const PostInfoTable = props => {
             <TableCell>Arrivals</TableCell>
             <TableCell align="right">Target</TableCell>
             <TableCell align="right">Total Room&nbsp;</TableCell>
-            <TableCell align="right">Total Sold Room&nbsp;</TableCell>
-            <TableCell align="right">Achieved&nbsp;</TableCell>
             <TableCell align="right">Date&nbsp;</TableCell>
 
             <TableCell align="right"> Actions</TableCell>
@@ -42,8 +40,6 @@ const PostInfoTable = props => {
               </TableCell>
               <TableCell align="right">{row.target}</TableCell>
               <TableCell align="right">{row.totalRoom}</TableCell>
-              <TableCell align="right">{row.totalSoldRoom}</TableCell>
-              <TableCell align="right">{row.achieve}</TableCell>
               <TableCell align="right">{row.date}</TableCell>
               <TableCell align="right">
                 {' '}

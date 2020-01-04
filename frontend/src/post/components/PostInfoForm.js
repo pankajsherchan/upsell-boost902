@@ -104,35 +104,6 @@ const PostInfoForm = props => {
                 onChange={props.formik.handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="totalSoldRoom"
-                label="Total Sold Room"
-                name="totalSoldRoom"
-                autoComplete="lname"
-                type="number"
-                value={props.formik.values.totalSoldRoom}
-                onChange={props.formik.handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="achieved"
-                label="Achieved"
-                name="achieve"
-                autoComplete="email"
-                type="number"
-                value={props.formik.values.achieve}
-                onChange={props.formik.handleChange}
-              />
-            </Grid>
 
             <Grid item xs={12} sm={4}>
               <TextField

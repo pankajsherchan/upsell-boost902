@@ -33,13 +33,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PredictionGraph = props => {
+  console.log('props: ', props);
   const classes = useStyles();
 
   const data = [
     {
       name: 'Target vs Score',
-      target: props.data.target,
-      achieved: props.data.achieve
+      target: props.target,
+      achieved: props.achieve
     }
   ];
   return (
