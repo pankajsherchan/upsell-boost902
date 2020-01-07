@@ -172,14 +172,14 @@ const Comparison = () => {
     'November',
     'December'
   ];
-  const years = ['2019', '2020'];
+  const years = ['2019', '2020', 'All'];
 
   const comparisonValues = ['Expected', 'Scored', 'ADR', 'RevPAR'];
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(
+  const [data, setData] = useState([
     DATA.filter(d => d.year === getCurrentYear())
-  );
+  ]);
   const [selectedMonths, setMonths] = useState(months);
   const [selectedComparisonItems, setComparisonItems] = useState(
     comparisonValues
@@ -274,11 +274,22 @@ const Comparison = () => {
   };
 
   const onYearSelected = value => () => {
-    const filteredData = DUPLICATE_DATA.filter(d => d.year === value + '');
-    setData([...filteredData]);
-    setYear(value + '');
-    console.log('filteredData: ', filteredData);
-    setMonths(filteredData.map(d => d.month));
+    if (value === 'All') {
+      const result = [];
+      years.map(y => {
+        if (y !== 'All') {
+          const filteredData = DUPLICATE_DATA.filter(d => d.year === y);
+          result.push(filteredData);
+        }
+      });
+      setData([...result]);
+      setYear(value);
+    } else {
+      const filteredData = DUPLICATE_DATA.filter(d => d.year === value + '');
+      setData([[...filteredData]]);
+      setYear(value + '');
+      setMonths(filteredData.map(d => d.month));
+    }
   };
 
   return (
@@ -329,7 +340,9 @@ const Comparison = () => {
                       Comparison By Months
                     </Typography>
                     <Divider />
-                    <ResponsiveBarChart data={data} />
+                    {data.map(d =>
+                      d.length >= 1 ? <ResponsiveBarChart data={d} /> : null
+                    )}
                   </div>
                 </div>
               </Paper>

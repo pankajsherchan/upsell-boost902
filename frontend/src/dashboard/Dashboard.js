@@ -16,9 +16,9 @@ import UpsellSummary from './components/upsell-summary/UpsellSummary';
 import './Dashboard.css';
 
 const EXPECTATION = {
-  MORNING_SHIFT: 5,
-  AFTERNOON_SHIFT: 8,
-  EVENING_SHIFT: 5
+  MORNING_SHIFT: 10,
+  AFTERNOON_SHIFT: 60,
+  EVENING_SHIFT: 30
 };
 
 const useStyles = makeStyles(theme => ({

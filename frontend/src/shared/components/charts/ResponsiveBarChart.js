@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ResponsiveBarChart = props => {
+  console.log('props: ', props);
   return (
     <ResponsiveContainer width="100%" height={400}>
       <ComposedChart

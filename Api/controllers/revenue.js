@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Post = require('../models/post');
+const moment = require('moment');
 
 getRevenueByDays = async (req, res, next) => {
   let posts = [];
@@ -8,7 +9,7 @@ getRevenueByDays = async (req, res, next) => {
   try {
     posts = await Post.find();
 
-    const postsByDate = [
+    let postsByDate = [
       ...new Set(posts.map(p => p.date.toISOString().substring(0, 10)))
     ];
 
@@ -30,8 +31,6 @@ getRevenueByDays = async (req, res, next) => {
       });
     });
   } catch (err) {
-    console.log('err: ', err);
-
     const error = new Error(
       'Something went wrong, post info could not be found'
     );
@@ -39,7 +38,35 @@ getRevenueByDays = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ revenueByDay: result });
+  result = _.sortBy(result, 'postDate');
+  const days = getAllDaysUptoToday();
+
+  const finalResult = days.map(d => {
+    const r = result.find(r => r.postDate === d);
+    return {
+      revenue: r === undefined ? 0 : r.revenue,
+      postDate: d
+    };
+  });
+
+  res.json({ revenueByDay: finalResult });
+};
+
+getAllDaysUptoToday = () => {
+  let days = [];
+  let i;
+
+  let currentDate = moment(moment().parseZone(), 'YYYY/MM/DD');
+
+  let month = currentDate.format('MM');
+  let day = currentDate.format('DD');
+  let year = currentDate.format('YYYY');
+
+  for (i = 1; i <= day; i++) {
+    days.push(year + '-' + month + '-' + (i >= 10 ? i : '0' + i));
+  }
+
+  return days;
 };
 
 exports.getRevenueByDays = getRevenueByDays;
